@@ -1,7 +1,6 @@
 package com.example.myapplication;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -19,16 +18,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 //mm
 public class MainActivity extends AppCompatActivity {
     String host = "223.194.158.91";    // 서버 컴퓨터 IP
@@ -46,13 +41,14 @@ public class MainActivity extends AppCompatActivity {
     TextView dateNow;
     private SharedPreferences pref;
     //※※※※※※ 신규, 기존 회원 구별
-    private SharedPreferences memberPref ;
+    private SharedPreferences memberPref;
     int loginNum = 0;
     //※※※※※※
     private TelephonyManager telephonyManager;
     private EditText Stuid;
     Intent intent;
     private BackPressCloseHandler backPressCloseHandler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,11 +56,11 @@ public class MainActivity extends AppCompatActivity {
 
         backPressCloseHandler = new BackPressCloseHandler(this); //뒤로버튼 종료
 
-        Intent myIntent = new Intent(getApplicationContext(),MainActivity.class);
+        Intent myIntent = new Intent(getApplicationContext(), MainActivity.class);
         myIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 
 
-        String state= Environment.getExternalStorageState();
+        String state = Environment.getExternalStorageState();
         if ((ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED) || (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED)) {
             ActivityCompat.requestPermissions(this, new String[]{
                     Manifest.permission.INTERNET, Manifest.permission.ACCESS_NETWORK_STATE
@@ -93,11 +89,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                intent = new Intent(getApplicationContext(),OldFirstView.class);
-                startActivity(intent);
-
-                //thread = new FirstConnectThread();
-                //thread.start();
+                //intent = new Intent(getApplicationContext(),NewFirstView.class);
+                //startActivity(intent);
+                thread = new FirstConnectThread();
+                thread.start();
             }
         });
 
@@ -166,10 +161,6 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println("서버로부터 받은 데이터: " + input);
 
 
-
-
-
-
                 //Toast.makeText(getApplicationContext(), "서버로부터 받은 데이터 : " + input , Toast.LENGTH_SHORT).show();
 
                 /*
@@ -199,56 +190,6 @@ public class MainActivity extends AppCompatActivity {
                     } else intent = new Intent(getApplicationContext(), OldFirstView.class);
                     memberEditor.putInt("loginNum", loginNum);
                     memberEditor.commit();
-
-
-
-                    //이미지 불러들이는 부분
-                    BufferedInputStream bis = new BufferedInputStream(socket.getInputStream());
-                    DataInputStream dis = new DataInputStream(bis);
-
-                    int filesCount = dis.readInt();  //파일 갯수 읽음
-                    System.out.println("1-1 filescount : " + filesCount);
-                    File[] files = new File[filesCount]; // 파일을 read한 것 받아 놓습니다.
-                    System.out.println("1-2 for문 시작전 : ");
-                    for (int i = 0; i < filesCount; i++) {   //파일 갯수 만큼 for문 돕니다.
-                        System.out.println("1-3 for들어옴 : ");
-                        long fileLength = dis.readLong();    //파일 길이 받습니다.
-                        String fileName = dis.readUTF();     //파일 이름 받습니다.
-
-                        System.out.println("수신 파일 이름 : " + fileName);
-
-                        files[i] = new File(fileName);
-                        System.out.println("1-4 파일 저장? : ");
-                        FileOutputStream fos = openFileOutput(files[i].getName(), Context.MODE_PRIVATE);
-                        // FileOutputStream fos = new FileOutputStream(files[i]); // 읽은 파일들 폰에서 지정한 폴더로 내보냅니다.
-                        System.out.println("1-5 파일 지정폴더로 보냄? : ");
-                        BufferedOutputStream bos = new BufferedOutputStream(fos);
-                        System.out.println("1-6 파일복사 저장 for문 전:");
-                        for (int j = 0; j < fileLength; j++) //파일 길이 만큼 읽습니다.
-                            bos.write(bis.read());
-                        System.out.println("1-7 파일 복사 성공? : ");
-                        bos.flush();
-
-                        storage = getFilesDir().toString();
-                        System.out.println("1-8 파일 위치 : " + storage);
-                        storage = storage + "/" + output_id + ".jpg";           // input은 보낸 학번값
-
-                        storage_pref = getSharedPreferences("storage", MODE_APPEND);
-                        storage_commit = storage_pref.edit();
-                        storage_commit.putString("storage", storage);
-                        storage_commit.commit();
-                    }
-
-
-
-
-
-
-
-
-
-
-
 
 
                     //※※※※※※

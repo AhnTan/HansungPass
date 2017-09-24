@@ -138,3 +138,6 @@ v1.12
 v1.41
 [version 0.49 수정]
 new,old first view의 자연스러운 이동 & backPress 설정(취소키 두번 눌러야 종료)
+
+v1.42
+old first view에서 지문 액티비티가 계속 실행되던 것을 종료
