@@ -18,6 +18,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.myapplication.util.PatternLockUtils;
+import com.github.ajalt.reprint.core.Reprint;
+
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -41,8 +44,8 @@ public class MainActivity extends AppCompatActivity {
     TextView dateNow;
     private SharedPreferences pref;
     //※※※※※※ 신규, 기존 회원 구별
-    private SharedPreferences memberPref;
-    int loginNum = 0;
+   // private SharedPreferences memberPref;
+  //  int loginNum = 0;
     //※※※※※※
     private TelephonyManager telephonyManager;
     private EditText Stuid;
@@ -126,8 +129,8 @@ public class MainActivity extends AppCompatActivity {
 
             String host = "113.198.84.23";
 
-            memberPref = getSharedPreferences("memberPref", MODE_PRIVATE);
-            final SharedPreferences.Editor memberEditor = memberPref.edit();
+         //   memberPref = getSharedPreferences("memberPref", MODE_PRIVATE);
+         //   final SharedPreferences.Editor memberEditor = memberPref.edit();
             try {
                 Socket socket = new Socket(host, port);
                 System.out.println("서버로 연결되었습니다. : " + host + ", " + port);
@@ -180,7 +183,9 @@ public class MainActivity extends AppCompatActivity {
                     id_commit.commit();
                     System.out.println(">>>>>>>>>>>>>>>> : " + id_pref.getString("id", ""));
 
-                    //※※※※※※ 신규, 기존 회원 구별
+
+
+                    /*/※※※※※※ 신규, 기존 회원 구별
 
                     int loginNum2 = memberPref.getInt("loginNum", 0);
                     Intent intent;
@@ -192,7 +197,12 @@ public class MainActivity extends AppCompatActivity {
                     memberEditor.commit();
 
 
-                    //※※※※※※
+                    //※※※※※※*/
+
+                    Reprint.initialize(getApplicationContext());
+                    if (Reprint.hasFingerprintRegistered() || PatternLockUtils.hasPattern(getApplicationContext())) {
+                        intent = new Intent(getApplicationContext(), OldFirstView.class);
+                    } else intent = new Intent(getApplicationContext(), NewFirstView.class);
                     startActivity(intent);
 
                 } else if (input.toString().equals("불허가")) {

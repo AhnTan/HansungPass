@@ -67,12 +67,12 @@ public class NewFirstView extends AppCompatActivity {
         registerDialog = new RegisterDialog(this,
                 "등록하기", // 제목
                 "", // 내용
-                leftListener, // 왼쪽 버튼 이벤트
-                rightListener); // 오른쪽 버튼 이벤트
+                FPlistener, // 왼쪽 버튼 이벤트
+                PTlistener); // 오른쪽 버튼 이벤트
         registerDialog.show();
     }
 
-    private View.OnClickListener leftListener = new View.OnClickListener() {
+    private View.OnClickListener FPlistener = new View.OnClickListener() {
         public void onClick(View v) {
             Intent intent = new Intent(getApplicationContext(), SetFPActivity.class);
             startActivity(intent);
@@ -82,7 +82,7 @@ public class NewFirstView extends AppCompatActivity {
         }
     };
 
-    private View.OnClickListener rightListener = new View.OnClickListener() {
+    private View.OnClickListener PTlistener = new View.OnClickListener() {
         public void onClick(View v) {
             Intent intent = new Intent(getApplicationContext(), SetPatternActivity.class);
             //액티비티가 꺼졌다가 켜짐

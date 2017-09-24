@@ -1,6 +1,5 @@
 package com.example.myapplication;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -58,7 +57,6 @@ public class Finger extends AppCompatActivity {
 
         img = (ImageView) findViewById(R.id.imageView);
         Reprint.initialize(this);
-        Activity nowActivity = this;
 
         if(!Reprint.hasFingerprintRegistered()){
             img.setImageResource(R.drawable.failure);

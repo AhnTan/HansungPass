@@ -141,3 +141,8 @@ new,old first view의 자연스러운 이동 & backPress 설정(취소키 두번
 
 v1.42
 old first view에서 지문 액티비티가 계속 실행되던 것을 종료
+
+v1.43
+1. 신규회원, 기존회원 구분
+: 패턴을 등록해놓거나 지문을 등록해 놓았을 때 기존회원으로 구분
+2. 상황에 따라 register Dialog Text 다르게 나오기
