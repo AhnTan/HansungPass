@@ -1,0 +1,58 @@
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="app_name">My Application</string>
+
+    <string name="main_title">@string/app_name</string>
+    <string name="pref_title_pattern_lock">Pattern lock</string>
+    <string name="pref_title_theme">Theme</string>
+    <string name="pref_summary_theme">[ %1$s ]</string>
+    <string name="pref_dialog_title_theme">Select theme</string>
+    <string-array name="pref_entries_theme">
+        <item>Light</item>
+        <item>Dark</item>
+    </string-array>
+    <string name="pref_title_about">About</string>
+
+    <string name="pattern_lock_title">Pattern lock</string>
+    <string name="pref_title_set_pattern">Set unlock pattern</string>
+    <string name="pref_summary_set_pattern_none">[ No pattern set ]</string>
+    <string name="pref_summary_set_pattern_has">[ Pattern set ]</string>
+    <string name="pref_title_pattern_visible">Make pattern visible</string>
+    <string name="pref_summary_pattern_visible_off">Pattern will be hidden when drawing</string>
+    <string name="pref_summary_pattern_visible_on">Pattern will be visible when drawing</string>
+    <string name="pref_title_clear_pattern">Clear unlock pattern</string>
+    <string name="pref_dialog_message_clear_pattern">Clear unlock pattern?</string>
+    <string name="pattern_cleared">Unlock pattern has been cleared</string>
+
+    <string name="set_pattern_title">Set unlock pattern</string>
+    <string name="confirm_pattern_title">Confirm your unlock pattern</string>
+    <string name="reset_pattern_title">Confirm password to reset pattern</string>
+    <string name="reset_pattern_message">This is only a demo.\n\nPress "OK" to reset your unlock pattern.</string>
+    <string name="pattern_reset">Unlock pattern has been reset</string>
+
+    <string name="about_title">About</string>
+    <string name="about_name">PatternLock</string>
+    <string name="about_version">Version %1$s</string>
+    <string name="about_credit">Zhang Hai 2016, 2017</string>
+    <string name="about_github"><a href="https://github.com/DreaminginCodeZH/PatternLock">View on GitHub</a></string>
+    <string name="pl_cancel">취소</string>
+    <string name="pl_confirm">확인</string>
+    <string name="pl_confirm_pattern">확인을 위해 패턴을 다시 한 번 그리세요.</string>
+    <string name="pl_continue">계속</string>
+    <string name="pl_draw_pattern">새 패턴을 입력하세요.</string>
+    <string name="pl_draw_pattern_to_unlock">확인을 위해 패턴을 그려주세요.</string>
+    <string name="pl_forgot_pattern">Forgot pattern</string>
+    <string name="pl_pattern_confirmed">패턴을 설정했습니다.</string>
+    <string name="pl_pattern_recorded">패턴을 저장했습니다.</string>
+    <string name="pl_pattern_too_short">최소 %d개 이상의 점을 연결하세요. 다시 시도하세요.</string>
+    <string name="pl_recording_pattern">패턴 입력이 완료되면 손가락을 떼세요.</string>
+    <string name="pl_redraw">다시 시도</string>
+    <string name="pl_wrong_pattern">패턴이 틀렸습니다. 다시 시도하세요.</string>
+
+    <string name="pl_access_pattern_start">Pattern started</string>
+    <string name="pl_access_pattern_cleared">Pattern cleared</string>
+    <string name="pl_access_pattern_cell_added">Cell added</string>
+    <string name="pl_access_pattern_cell_added_verbose">Cell <xliff:g id="cell_index" example="3">%1$d</xliff:g> added</string>
+    <string name="pl_access_pattern_detected">Pattern completed</string>
+    <string name="pl_access_pattern_area">Pattern area.</string>
+</resources>
