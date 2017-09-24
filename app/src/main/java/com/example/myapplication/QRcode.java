@@ -1,11 +1,12 @@
 package com.example.myapplication;
 
 
-import android.app.ActivityManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -23,6 +24,11 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -30,15 +36,19 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class QRcode extends FragmentActivity {
-    String host = "223.194.134.161";    // 서버 컴퓨터 IP
+    //String host = "223.194.134.161";    // 서버 컴퓨터 IP
     //String host = "121.161.183.214";
-    int port = 5001;
+    //int port = 5001;
     private Handler mHandler;
     private Handler timerHandler;
     private Handler stopHandler;
     private Handler ontimeHandler;
+    private Handler userimgHandler;
+
     private Bundle bundle;
     private Bundle timerbundle;
+    private Bundle userimgbundle;
+
     private ConnectThread thread;
     private TimerThread thread2;
     //private pausetimer thread3;
@@ -57,8 +67,17 @@ public class QRcode extends FragmentActivity {
     private SharedPreferences se;
     int reset_btn_count;
     private BackPressCloseHandler backPressCloseHandler;
-    ActivityManager am;
 
+    private float curScale = 1F;
+    private float curRotate = 0F;
+    private float curSkewX = 0F;
+    private float curSkewY = 0F;
+
+    private String storage;
+    ImageView user_imgview;
+    Bitmap userimg_bitmap;
+    int bmpWidth;
+    int bmpHeight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +85,8 @@ public class QRcode extends FragmentActivity {
         super.onCreate(savedInstanceState);
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_qrcode);
+
+        user_imgview = (ImageView)findViewById(R.id.qr_stu_img);
 
         //se = getSharedPreferences("id", 0);
         //스샷막아주는 코드
@@ -162,6 +183,37 @@ public class QRcode extends FragmentActivity {
                 dateNow_b.setText(b);
             }
         };
+
+
+        //유저이미지 나오게하는 핸들러
+        userimgHandler = new Handler(){
+            public void handleMessage(Message msg){
+                super.handleMessage(msg);
+                userimgbundle = msg.getData();
+                String uimg = userimgbundle.getString("userimg");
+                System.out.println("99-99 핸들러에서 가져온 이미지 경로 ");
+
+                userimg_bitmap = BitmapFactory.decodeFile(uimg);
+                //bmpWidth = iv.getWidth();
+                //bmpHeight = iv.getHeight();
+                bmpWidth = userimg_bitmap.getWidth();
+                bmpHeight = userimg_bitmap.getHeight();
+
+                System.out.println("이미지뷰 길이 : " + bmpWidth);
+                System.out.println("이미지뷰 높이 : " + bmpHeight);
+
+                Matrix matrix = new Matrix();
+                matrix.postScale(curScale, curScale);
+                matrix.postRotate(curRotate);
+                matrix.postSkew(curSkewX, curSkewY);
+
+                Bitmap resizedBitmap = Bitmap.createBitmap(userimg_bitmap, 0, 0, bmpWidth, bmpHeight, matrix, true);
+                user_imgview.setImageBitmap(resizedBitmap);
+
+                //drawMatrix();
+            }
+        };
+
 
         // 시간초 나오게하는 핸들러
         timerHandler = new Handler(){
@@ -317,8 +369,9 @@ public class QRcode extends FragmentActivity {
     // 쓰레드 (서버연결 및 프로그래스바) - 현재는 임시로 한 쓰레드에 그냥 넣어둠
     class ConnectThread extends Thread{
         //ProgressBar progressBar = (ProgressBar)findViewById(R.id.qr_bar);
-        public void run(){
+        public void run() {
             String host = "113.198.84.23";
+            //String host = "223.194.158.120";
             int port = 80;
 
             try {
@@ -341,6 +394,17 @@ public class QRcode extends FragmentActivity {
                 outstream2.writeObject(output2);
                 outstream2.flush();
                 System.out.println("서버로 보낸 데이터 : " + output2);
+
+
+
+             /*
+                try{
+                    Thread.sleep(10000);
+                }catch (Exception e){
+
+                }
+
+*/
 
 
                 ObjectInputStream instream = new ObjectInputStream(socket.getInputStream());
@@ -366,10 +430,66 @@ public class QRcode extends FragmentActivity {
                 mHandler.sendMessage(msg);
 
 
+/*
+                //유저이미지처리 부분
+                UserImageView user_imageview = new UserImageView(socket);
+                userimgbundle = new Bundle();
+                userimgbundle.putString("userimg", user_imageview.userbitmap());
+                Message user_msg = new Message();
+                user_msg.setData(userimgbundle);
+                userimgHandler.sendMessage(user_msg);
+*/
+
+
+                BufferedInputStream bis = new BufferedInputStream(socket.getInputStream());
+
+                DataInputStream dis = new DataInputStream(bis);
+
+                int filesCount = dis.readInt();  //파일 갯수 읽음
+                System.out.println("1-1 filescount : " + filesCount);
+                File[] files = new File[filesCount]; // 파일을 read한 것 받아 놓습니다.
+                System.out.println("1-2 for문 시작전 : ");
+                for (int i = 0; i < filesCount; i++) {   //파일 갯수 만큼 for문 돕니다.
+                    System.out.println("1-3 for들어옴 : ");
+                    long fileLength = dis.readLong();    //파일 길이 받습니다.
+                    String fileName = dis.readUTF();     //파일 이름 받습니다.
+
+                    System.out.println("수신 파일 이름 : " + fileName);
+
+                    files[i] = new File(fileName);
+                    System.out.println("1-4 파일 저장? : ");
+                    FileOutputStream fos = openFileOutput(files[i].getName(), Context.MODE_PRIVATE);
+                    // FileOutputStream fos = new FileOutputStream(files[i]); // 읽은 파일들 폰에서 지정한 폴더로 내보냅니다.
+                    System.out.println("1-5 파일 지정폴더로 보냄? : ");
+                    BufferedOutputStream bos = new BufferedOutputStream(fos);
+                    System.out.println("1-6 파일복사 저장 for문 전:");
+                    for (int j = 0; j < fileLength; j++) //파일 길이 만큼 읽습니다.
+                        bos.write(bis.read());
+                    System.out.println("1-7 파일 복사 성공? : ");
+                    bos.flush();
+
+                    storage = getFilesDir().toString();
+                    System.out.println("1-8 파일 위치 : " + storage);
+
+                }
+
+
+                userimgbundle = new Bundle();
+                userimgbundle.putString("userimg", storage + "/" + input2 + ".jpg");
+                Message user_msg = new Message();
+                user_msg.setData(userimgbundle);
+                userimgHandler.sendMessage(user_msg);
+
+
+
+                //dis.close();
+
+
                 instream.close();
+                instream2.close();
+                instream3.close();
                 outstream.close();
                 socket.close();
-
             }
             catch (Exception e) {
                 e.printStackTrace();
