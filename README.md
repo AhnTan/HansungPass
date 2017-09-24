@@ -136,5 +136,5 @@ v1.12
 
 # 09-24
 v1.41
-version 0.49 수정
+[version 0.49 수정]
 new,old first view의 자연스러운 이동 & backPress 설정(취소키 두번 눌러야 종료)
