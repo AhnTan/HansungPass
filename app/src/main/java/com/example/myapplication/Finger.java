@@ -24,6 +24,7 @@ public class Finger extends AppCompatActivity {
     //ConnectThread fingerthread;
     //Object input;
     Intent intent;
+    Intent myIntent;
 
 
     @Override
@@ -78,16 +79,16 @@ public class Finger extends AppCompatActivity {
         });
     }
 
-//    private boolean checkDeviceSpec() {
-
-        protected boolean checkDeviceSpec() {
+    private boolean checkDeviceSpec() {
         boolean fingerprintFlag = Reprint.isHardwarePresent();
         boolean hasRegisteredFlag = Reprint.hasFingerprintRegistered();
-/*        if (hasRegisteredFlag)
-            img.setImageResource(R.drawable.twice);
-        else
-            img.setImageResource(R.drawable.failure);*/
-
-        return fingerprintFlag &&hasRegisteredFlag;
+        return fingerprintFlag && hasRegisteredFlag;
     }
+
+    @Override
+    public void onBackPressed() {
+
+        super.onBackPressed();
+    }
+
 }

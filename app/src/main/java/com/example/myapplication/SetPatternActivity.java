@@ -16,8 +16,6 @@ public class SetPatternActivity extends com.example.myapplication.patternlock.Se
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
         ThemeUtils.applyTheme(this);
         super.onCreate(savedInstanceState);
         AppUtils.setActionBarDisplayUp(this);
@@ -43,14 +41,20 @@ public class SetPatternActivity extends com.example.myapplication.patternlock.Se
     protected void onStop() {
 
         Intent intent;
+
         if (PatternLockUtils.hasPattern(getApplicationContext())) {
             intent = new Intent(getApplicationContext(), OldFirstView.class);
+            NewFirstView.myIntent = new Intent(getApplicationContext(),NewFirstView.class);
+            NewFirstView.myIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             Toast.makeText(getApplicationContext(),"등록에 성공했습니다.",Toast.LENGTH_LONG).show();
             startActivity(intent);
         } else {
-            intent = new Intent(getApplicationContext(), NewFirstView.class);
+            //intent = new Intent(getApplicationContext(), NewFirstView.class);
+            //intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+
             Toast.makeText(getApplicationContext(),"등록에 실패했습니다.\n다시 등록해주세요.",Toast.LENGTH_LONG).show();
-           startActivity(intent);
+           //startActivity(intent);
         }
 
         super.onStop();

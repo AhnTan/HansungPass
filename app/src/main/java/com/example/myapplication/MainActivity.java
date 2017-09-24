@@ -51,11 +51,17 @@ public class MainActivity extends AppCompatActivity {
     //※※※※※※
     private TelephonyManager telephonyManager;
     private EditText Stuid;
-
+    Intent intent;
+    private BackPressCloseHandler backPressCloseHandler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        backPressCloseHandler = new BackPressCloseHandler(this); //뒤로버튼 종료
+
+        Intent myIntent = new Intent(getApplicationContext(),MainActivity.class);
+        myIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 
 
         String state= Environment.getExternalStorageState();
@@ -87,8 +93,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                thread = new FirstConnectThread();
-                thread.start();
+                intent = new Intent(getApplicationContext(),OldFirstView.class);
+                startActivity(intent);
+
+                //thread = new FirstConnectThread();
+                //thread.start();
             }
         });
 
@@ -184,7 +193,6 @@ public class MainActivity extends AppCompatActivity {
 
                     int loginNum2 = memberPref.getInt("loginNum", 0);
                     Intent intent;
-
                     loginNum += 1;
                     if (loginNum2 < 1) {
                         intent = new Intent(getApplicationContext(), NewFirstView.class);
@@ -266,5 +274,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        backPressCloseHandler.onBackPressed();
+        /*
+        am = (ActivityManager)getSystemService(ACTIVITY_SERVICE);
+        am.restartPackage(getPackageName());*/
+    }
 
 }
