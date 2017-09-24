@@ -13,12 +13,14 @@ public class OldFirstView extends AppCompatActivity {
     private Button btn2;
     private Intent settingintent;
     SharedPreferences pref;
-
+    private BackPressCloseHandler backPressCloseHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_old_first_view);
+        backPressCloseHandler = new BackPressCloseHandler(this); //뒤로버튼 종료
+
 
         pref = getSharedPreferences("pref", MODE_PRIVATE); // Shared Preference를 불러옵니다.
         btn = (Button) findViewById(R.id.ofv_load_btn);
@@ -48,4 +50,15 @@ public class OldFirstView extends AppCompatActivity {
             }
         });
     }
+
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        backPressCloseHandler.onBackPressed();
+        /*
+        am = (ActivityManager)getSystemService(ACTIVITY_SERVICE);
+        am.restartPackage(getPackageName());*/
+    }
+
 }

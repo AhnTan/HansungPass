@@ -12,11 +12,17 @@ public class NewFirstView extends AppCompatActivity {
     private Button btn2;
     private Intent settingintent;
     private RegisterDialog registerDialog;
+    private BackPressCloseHandler backPressCloseHandler;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_first_view);
+
+
+        backPressCloseHandler = new BackPressCloseHandler(this); //뒤로버튼 종료
+
 
         btn = (Button) findViewById(R.id.nfv_register_btn);
         btn.setOnClickListener(new View.OnClickListener() {
@@ -79,6 +85,15 @@ public class NewFirstView extends AppCompatActivity {
         }
     };
 
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        backPressCloseHandler.onBackPressed();
+        /*
+        am = (ActivityManager)getSystemService(ACTIVITY_SERVICE);
+        am.restartPackage(getPackageName());*/
+    }
 
 
 }

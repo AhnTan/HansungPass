@@ -17,6 +17,7 @@ public class ConfirmPatternActivity extends com.example.myapplication.patternloc
 
         ThemeUtils.applyTheme(this);
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
