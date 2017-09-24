@@ -24,11 +24,6 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -65,6 +60,9 @@ public class QRcode extends FragmentActivity {
     private TextView timev;
     private ImageButton ibtn;
     private SharedPreferences se;
+
+    private SharedPreferences st;
+
     int reset_btn_count;
     private BackPressCloseHandler backPressCloseHandler;
 
@@ -87,6 +85,30 @@ public class QRcode extends FragmentActivity {
         setContentView(R.layout.activity_qrcode);
 
         user_imgview = (ImageView)findViewById(R.id.qr_stu_img);
+
+        st = getSharedPreferences("storage", MODE_APPEND);
+        storage = st.getString("storage", "");
+
+        System.out.println("99-99 핸들러에서 가져온 이미지 경로 " + storage);
+
+        userimg_bitmap = BitmapFactory.decodeFile(storage);
+        //bmpWidth = iv.getWidth();
+        //bmpHeight = iv.getHeight();
+        bmpWidth = userimg_bitmap.getWidth();
+        bmpHeight = userimg_bitmap.getHeight();
+
+        System.out.println("이미지뷰 길이 : " + bmpWidth);
+        System.out.println("이미지뷰 높이 : " + bmpHeight);
+
+        Matrix matrix = new Matrix();
+        matrix.postScale(curScale, curScale);
+        matrix.postRotate(curRotate);
+        matrix.postSkew(curSkewX, curSkewY);
+
+        Bitmap resizedBitmap = Bitmap.createBitmap(userimg_bitmap, 0, 0, bmpWidth, bmpHeight, matrix, true);
+        user_imgview.setImageBitmap(resizedBitmap);
+
+
 
         //se = getSharedPreferences("id", 0);
         //스샷막아주는 코드
@@ -185,6 +207,7 @@ public class QRcode extends FragmentActivity {
         };
 
 
+        /*
         //유저이미지 나오게하는 핸들러
         userimgHandler = new Handler(){
             public void handleMessage(Message msg){
@@ -213,7 +236,7 @@ public class QRcode extends FragmentActivity {
                 //drawMatrix();
             }
         };
-
+*/
 
         // 시간초 나오게하는 핸들러
         timerHandler = new Handler(){
@@ -396,17 +419,6 @@ public class QRcode extends FragmentActivity {
                 System.out.println("서버로 보낸 데이터 : " + output2);
 
 
-
-             /*
-                try{
-                    Thread.sleep(10000);
-                }catch (Exception e){
-
-                }
-
-*/
-
-
                 ObjectInputStream instream = new ObjectInputStream(socket.getInputStream());
                 Object input = instream.readObject();
                 System.out.println("서버로부터 받은 QR데이터: " + input);
@@ -441,8 +453,9 @@ public class QRcode extends FragmentActivity {
 */
 
 
+                /*
+                //이미지 파일 읽어들이는 부분
                 BufferedInputStream bis = new BufferedInputStream(socket.getInputStream());
-
                 DataInputStream dis = new DataInputStream(bis);
 
                 int filesCount = dis.readInt();  //파일 갯수 읽음
@@ -470,7 +483,6 @@ public class QRcode extends FragmentActivity {
 
                     storage = getFilesDir().toString();
                     System.out.println("1-8 파일 위치 : " + storage);
-
                 }
 
 
@@ -480,7 +492,7 @@ public class QRcode extends FragmentActivity {
                 user_msg.setData(userimgbundle);
                 userimgHandler.sendMessage(user_msg);
 
-
+*/
 
                 //dis.close();
 

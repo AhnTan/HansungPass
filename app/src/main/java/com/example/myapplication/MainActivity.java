@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -18,6 +19,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -31,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     FirstConnectThread thread;
     Bundle bundle;
     Handler mHandler;
+    String storage;
 
     long now;
     Date date;
@@ -77,38 +84,9 @@ public class MainActivity extends AppCompatActivity {
 
         Button btn = (Button) findViewById(R.id.login_btn);
         btn.setOnClickListener(new View.OnClickListener() {
-            String id = "허가";
-
             @Override
             public void onClick(View v) {
-                /*
-                telephonyManager = (TelephonyManager)getSystemService(getApplicationContext().TELEPHONY_SERVICE);
-                String phoneNum = telephonyManager.getLine1Number();
-                Stuid = (EditText)findViewById(R.id.login_id_et);
-                phoneNum = phoneNum.replace("+82", "0") + Stuid.getText().toString();
 
-
-                if(pref.getString("Phone","").equals("")){
-                    editor.putString("Phone",phoneNum);
-                    editor.commit();
-                    //Intent intent = new Intent(getApplicationContext(),NewFirstView.class);
-                    //startActivity(intent);
-                    thread = new FirstConnectThread();
-                    thread.start();
-                }
-                else if(pref.getString("Phone","").equals(phoneNum)){
-                    //Intent intent = new Intent(getApplicationContext(),NewFirstView.class);
-                    //startActivity(intent);
-                    thread = new FirstConnectThread();
-                    thread.start();
-                }
-                else{
-                    Toast.makeText(getApplicationContext(),"자기 핸드폰으로 로그인하세요",Toast.LENGTH_SHORT).show();
-                }
-
-                Intent intent = new Intent(getApplicationContext(),NewFirstView.class);
-                startActivity(intent);
-                */
                 thread = new FirstConnectThread();
                 thread.start();
             }
@@ -135,6 +113,9 @@ public class MainActivity extends AppCompatActivity {
         String output_num;
         SharedPreferences id_pref;
         SharedPreferences.Editor id_commit;
+
+        SharedPreferences storage_pref;
+        SharedPreferences.Editor storage_commit;
 
         //ProgressBar progressBar = (ProgressBar)findViewById(R.id.qr_bar);
         public void run() {
@@ -174,6 +155,12 @@ public class MainActivity extends AppCompatActivity {
                 input = instream.readObject();
                 //System.out.println(instream.readObject());
                 System.out.println("서버로부터 받은 데이터: " + input);
+
+
+
+
+
+
                 //Toast.makeText(getApplicationContext(), "서버로부터 받은 데이터 : " + input , Toast.LENGTH_SHORT).show();
 
                 /*
@@ -204,6 +191,58 @@ public class MainActivity extends AppCompatActivity {
                     } else intent = new Intent(getApplicationContext(), OldFirstView.class);
                     memberEditor.putInt("loginNum", loginNum);
                     memberEditor.commit();
+
+
+
+                    //이미지 불러들이는 부분
+                    BufferedInputStream bis = new BufferedInputStream(socket.getInputStream());
+                    DataInputStream dis = new DataInputStream(bis);
+
+                    int filesCount = dis.readInt();  //파일 갯수 읽음
+                    System.out.println("1-1 filescount : " + filesCount);
+                    File[] files = new File[filesCount]; // 파일을 read한 것 받아 놓습니다.
+                    System.out.println("1-2 for문 시작전 : ");
+                    for (int i = 0; i < filesCount; i++) {   //파일 갯수 만큼 for문 돕니다.
+                        System.out.println("1-3 for들어옴 : ");
+                        long fileLength = dis.readLong();    //파일 길이 받습니다.
+                        String fileName = dis.readUTF();     //파일 이름 받습니다.
+
+                        System.out.println("수신 파일 이름 : " + fileName);
+
+                        files[i] = new File(fileName);
+                        System.out.println("1-4 파일 저장? : ");
+                        FileOutputStream fos = openFileOutput(files[i].getName(), Context.MODE_PRIVATE);
+                        // FileOutputStream fos = new FileOutputStream(files[i]); // 읽은 파일들 폰에서 지정한 폴더로 내보냅니다.
+                        System.out.println("1-5 파일 지정폴더로 보냄? : ");
+                        BufferedOutputStream bos = new BufferedOutputStream(fos);
+                        System.out.println("1-6 파일복사 저장 for문 전:");
+                        for (int j = 0; j < fileLength; j++) //파일 길이 만큼 읽습니다.
+                            bos.write(bis.read());
+                        System.out.println("1-7 파일 복사 성공? : ");
+                        bos.flush();
+
+                        storage = getFilesDir().toString();
+                        System.out.println("1-8 파일 위치 : " + storage);
+                        storage = storage + "/" + output_id + ".jpg";           // input은 보낸 학번값
+
+                        storage_pref = getSharedPreferences("storage", MODE_APPEND);
+                        storage_commit = storage_pref.edit();
+                        storage_commit.putString("storage", storage);
+                        storage_commit.commit();
+                    }
+
+
+
+
+
+
+
+
+
+
+
+
+
                     //※※※※※※
                     startActivity(intent);
 
