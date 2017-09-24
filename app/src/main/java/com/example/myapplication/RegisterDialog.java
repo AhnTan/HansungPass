@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class RegisterDialog extends Dialog {
 
@@ -83,5 +84,10 @@ public class RegisterDialog extends Dialog {
         this.mRightClickListener = rightListener;
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Toast.makeText(getContext(), "등록에 실패했습니다.\n다시 등록해주세요.", Toast.LENGTH_LONG).show();
+    }
 
 }

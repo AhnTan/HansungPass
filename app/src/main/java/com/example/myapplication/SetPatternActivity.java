@@ -1,15 +1,16 @@
 package com.example.myapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import com.example.myapplication.patternlock.PatternView;
 import com.example.myapplication.util.AppUtils;
 import com.example.myapplication.util.PatternLockUtils;
 import com.example.myapplication.util.ThemeUtils;
 
 import java.util.List;
-
-import com.example.myapplication.patternlock.PatternView;
 
 public class SetPatternActivity extends com.example.myapplication.patternlock.SetPatternActivity {
 
@@ -37,4 +38,23 @@ public class SetPatternActivity extends com.example.myapplication.patternlock.Se
     protected void onSetPattern(List<PatternView.Cell> pattern) {
         PatternLockUtils.setPattern(pattern, this);
     }
+
+    @Override
+    protected void onStop() {
+
+        Intent intent;
+        if (PatternLockUtils.hasPattern(getApplicationContext())) {
+            intent = new Intent(getApplicationContext(), OldFirstView.class);
+            Toast.makeText(getApplicationContext(),"등록에 성공했습니다.",Toast.LENGTH_LONG).show();
+            startActivity(intent);
+        } else {
+            intent = new Intent(getApplicationContext(), NewFirstView.class);
+            Toast.makeText(getApplicationContext(),"등록에 실패했습니다.\n다시 등록해주세요.",Toast.LENGTH_LONG).show();
+           startActivity(intent);
+        }
+
+        super.onStop();
+    }
+
+
 }

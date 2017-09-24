@@ -57,6 +57,8 @@ public class NewFirstView extends AppCompatActivity {
     private View.OnClickListener leftListener = new View.OnClickListener() {
         public void onClick(View v) {
             Intent intent = new Intent(getApplicationContext(),SetFPActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             registerDialog.dismiss();
             SetLockActivity.FPcheck =true;
@@ -67,6 +69,9 @@ public class NewFirstView extends AppCompatActivity {
     private View.OnClickListener rightListener = new View.OnClickListener() {
         public void onClick(View v) {
             Intent intent = new Intent(getApplicationContext(),SetPatternActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            //액티비티가 꺼졌다가 켜짐
             startActivity(intent);
             SetLockActivity.FPcheck =false;
             SetLockActivity.PTcheck = true;
