@@ -10,6 +10,9 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.example.myapplication.util.PatternLockUtils;
+import com.github.ajalt.reprint.core.Reprint;
+
 import java.util.ArrayList;
 
 public class Setting extends AppCompatActivity {
@@ -70,10 +73,24 @@ public class Setting extends AppCompatActivity {
                 data.add(new SearchMenuItem(R.drawable.a));
                 data.add(new SearchMenuItem(R.drawable.a));
                 */
-                data.add(new Setting_item("잠금방식", "지문,패턴"));
-                data.add(new Setting_item("지문 인식", "등록된 지문이 있습니다"));
-                data.add(new Setting_item("패턴 방식", "등록된 패턴이 없습니다"));
+                Reprint.initialize(getApplicationContext());
 
+                data.add(new Setting_item("잠금방식", "지문,패턴"));
+
+                if (PatternLockUtils.hasPattern(getApplicationContext())){
+                    data.add(new Setting_item("패턴 방식", "등록된 패턴이 있습니다."));
+                }
+                else{
+                    data.add(new Setting_item("패턴 방식", "등록된 패턴이 없습니다."));
+                }
+
+
+                if(Reprint.hasFingerprintRegistered()) {
+                    data.add(new Setting_item("지문 인식", "등록된 지문이 있습니다"));
+                }
+                else{
+                    data.add(new Setting_item("지문 인식", "등록된 지문이 없습니다."));
+                }
                 //bit.recycle();
                 //bit2.recycle();
                 //bit3.recycle();

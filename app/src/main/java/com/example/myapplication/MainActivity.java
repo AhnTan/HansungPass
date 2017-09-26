@@ -87,14 +87,14 @@ public class MainActivity extends AppCompatActivity {
         pref = getSharedPreferences("pref", MODE_PRIVATE);
         final SharedPreferences.Editor editor = pref.edit();
 
-        Button btn = (Button) findViewById(R.id.login_btn);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                Button btn = (Button) findViewById(R.id.login_btn);
+                btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
-                //intent = new Intent(getApplicationContext(),NewFirstView.class);
-                //startActivity(intent);
-                thread = new FirstConnectThread();
+                        //intent = new Intent(getApplicationContext(),NewFirstView.class);
+                        //startActivity(intent);
+                        thread = new FirstConnectThread();
                 thread.start();
             }
         });
