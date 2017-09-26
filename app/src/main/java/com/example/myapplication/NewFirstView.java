@@ -40,7 +40,8 @@ public class NewFirstView extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onClickView(v);
+                Intent intent = new Intent(getApplicationContext(),SetPatternActivity.class);
+                startActivity(intent);
             }
             //Intent mainintent = getIntent();
             //String pid = mainintent.getStringExtra("pid");

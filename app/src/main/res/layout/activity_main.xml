@@ -32,7 +32,7 @@
         android:layout_gravity="center_horizontal"
         android:ems="10"
         android:hint="학번(ID)"
-        android:text="1591033"
+        android:text="1391080"
         android:inputType="textPersonName"
         android:textColor="@android:color/darker_gray" />
 

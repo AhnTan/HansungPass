@@ -123,6 +123,7 @@ public class Setting extends AppCompatActivity {
                         //패턴방식
                         case 2:
                             intent = new Intent(getApplicationContext(),ConfirmPatternActivity.class);
+                            intent.putExtra("preActivity","okokok");
                             startActivity(intent);
                             break;
                         //position의 값이 위에서 지정한 case에 하나도 맞지 않을경우

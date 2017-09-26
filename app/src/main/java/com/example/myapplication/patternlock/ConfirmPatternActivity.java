@@ -9,6 +9,8 @@ import com.example.myapplication.R;
 
 import java.util.List;
 
+import static java.sql.Types.NULL;
+
 // For AOSP implementations, see:
 // https://android.googlesource.com/platform/packages/apps/Settings/+/master/src/com/android/settings/ConfirmLockPattern.java
 // https://android.googlesource.com/platform/frameworks/base/+/43d8451/policy/src/com/android/internal/policy/impl/keyguard/KeyguardPatternView.java
@@ -79,12 +81,30 @@ public class ConfirmPatternActivity extends BasePatternActivity
             onConfirmed();
             //패턴이 일치한다면 QRcode 화면으로 이동
             Intent intent = (Intent)new Intent();
-            if(preIntent.getExtras().getString("preActivity").equals("OldFirstView"))
+            System.out.println("조건문 시작전");
+            // old가 부를경우
+            if(preIntent.getExtras().getString("preActivity").equals("okokok")) {
+                System.out.println("else 들어옴");
+                intent.setComponent(new ComponentName("com.example.myapplication", "com.example.myapplication.SetPatternActivity"));
+                System.out.println("else 끝남");
+            }
+            else if(preIntent.getExtras().getString("preActivity").equals("OldFirstView")){
+                System.out.println("if 들ㅇ옴");
                 intent.setComponent(new ComponentName("com.example.myapplication", "com.example.myapplication.QRcode"));
-            else {intent.setComponent(new ComponentName("com.example.myapplication", "com.example.myapplication.SetPatternActivity"));
-                overridePendingTransition(0, 0);
+                System.out.println("if 끝남");
             }
 
+            /*
+            // 나머지 경우 : 패턴변경할때 --> 셋패턴액티비티
+            else
+                {
+                    System.out.println("else 들어옴");
+                    intent.setComponent(new ComponentName("com.example.myapplication", "com.example.myapplication.SetPatternActivity"));
+                    System.out.println("else 끝남");
+            }
+            */
+
+            System.out.println("액티비티 바뀌기전");
             startActivity(intent);
         } else {
             mMessageText.setText(R.string.pl_wrong_pattern);

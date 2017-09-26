@@ -200,9 +200,14 @@ public class MainActivity extends AppCompatActivity {
                     //※※※※※※*/
 
                     Reprint.initialize(getApplicationContext());
-                    if (Reprint.hasFingerprintRegistered() || PatternLockUtils.hasPattern(getApplicationContext())) {
+                    //지문이 단말기에 등록되어있는지 ||  패턴이 등록되어있는지 확인하는 조건문!!
+                    if (PatternLockUtils.hasPattern(getApplicationContext()))
+                    {
                         intent = new Intent(getApplicationContext(), OldFirstView.class);
-                    } else intent = new Intent(getApplicationContext(), NewFirstView.class);
+                    }
+                    else
+                        intent = new Intent(getApplicationContext(), NewFirstView.class);
+
                     startActivity(intent);
 
                 } else if (input.toString().equals("불허가")) {
