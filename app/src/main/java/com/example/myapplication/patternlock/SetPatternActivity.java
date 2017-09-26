@@ -1,7 +1,9 @@
 package com.example.myapplication.patternlock;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.myapplication.R;
 
@@ -14,7 +16,7 @@ import java.util.List;
  */
 public class SetPatternActivity extends BasePatternActivity
         implements PatternView.OnPatternListener {
-
+SharedPreferences pref;
     private enum LeftButtonState {
 
         Cancel(R.string.pl_cancel, true),
@@ -198,8 +200,16 @@ public class SetPatternActivity extends BasePatternActivity
                 throw new IllegalStateException("expected ui stage " + Stage.ConfirmCorrect
                         + " when button is " + RightButtonState.Confirm);
             }
+            pref = getSharedPreferences("pref", MODE_PRIVATE); // Shared Preference를 불러옵니다.
+            SharedPreferences.Editor editor = pref.edit(); // Editor를 불러옵니다.
+
+            // 저장할 값들을 입력합니다.
+            editor.putBoolean("FP", false);
+            editor.putBoolean("PT", true);
+            editor.commit();
             onSetPattern(mPattern);
             onConfirmed();
+
         }
     }
 

@@ -27,10 +27,20 @@ public class NewFirstView extends AppCompatActivity {
     private BackPressCloseHandler backPressCloseHandler;
     ImgConnectThread imgthread ;
 
+    SharedPreferences pref;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_first_view);
+        pref = getSharedPreferences("pref", MODE_PRIVATE); // Shared Preference를 불러옵니다.
+        SharedPreferences.Editor editor = pref.edit(); // Editor를 불러옵니다.
+
+        // 저장할 값들을 입력합니다.
+        editor.putBoolean("FP", false);
+        editor.putBoolean("PT", true);
+
 
         imgthread = new ImgConnectThread();
         imgthread.start();
