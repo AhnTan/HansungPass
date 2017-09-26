@@ -154,3 +154,12 @@ v1.90
 2. 신규회원은 패턴을 무조건적으로 먼저 등록하게 함.  (지문 off ,패턴 on)
 3. NEWFirstView 변경
 4. Setting 변경
+
+
+# 09-27
+
+v1.94
+
+1. 타이틀바 삭제(QRActivity와 MainActivity, NewActivity, OldActivity쪽을 추가)
+2. 배경사진 삽입
+3. 로그인 UI구조 조금변경
