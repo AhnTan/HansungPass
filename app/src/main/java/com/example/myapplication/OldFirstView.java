@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 
 public class OldFirstView extends BaseActivity {
@@ -17,6 +18,7 @@ public class OldFirstView extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_old_first_view);
 
         backPressCloseHandler = new BackPressCloseHandler(this); //뒤로버튼 종료

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/backlogo3"
+    android:background="@drawable/imagelogo5"
     android:padding="7dp">
 
     <FrameLayout
@@ -13,16 +13,12 @@
         android:layout_gravity="top"
         android:orientation="vertical">
 
-        <Button
-            android:id="@+id/ofv_logout_btn"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center_vertical"
-            android:background="@drawable/logout" />
+
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textStyle="bold"
             android:layout_gravity="center_vertical|center_horizontal"
             android:text="HansungPass"
             android:textSize="30sp" />
@@ -40,9 +36,8 @@
         android:id="@+id/imageView2"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="40dp"
-        android:layout_marginTop="70dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="120dp"
         app:srcCompat="@drawable/idcard" />
 
     <Button
@@ -52,7 +47,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_margin="10dp"
         android:layout_marginBottom="150dp"
-        android:background="#da9bd0f4"
+        android:background="#da1b1b1c"
         android:text="학생증 불러오기"
         android:textColor="@android:color/background_light"
         android:textSize="20dp" />

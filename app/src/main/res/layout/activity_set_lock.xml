@@ -14,15 +14,18 @@
         android:orientation="vertical">
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textStyle="bold"
+            android:layout_marginBottom="50dp"
             android:text="학생증을 불러오는 방법에는 지문과 패턴이 있습니다." />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
             android:orientation="horizontal">
-
 
             <ImageView
                 android:layout_width="100dp"
@@ -33,6 +36,7 @@
                 android:id="@+id/textView3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
                 android:text="지문방식은 대조하려는 지문이 사용자의 단말기에 등록되어 있는 지문과 일치해야 학생증이 로딩되기 때문에 절대 도용이 불가능합니다." />
         </LinearLayout>
 
@@ -43,13 +47,14 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="80dp"
+                android:layout_width="100dp"
                 android:layout_height="100dp"
                 app:srcCompat="@drawable/patternlock" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
                 android:text="패턴 방식은 사용자가 원하는 패턴을 등록, 입력하여 학생증을 불러오는 방식으로, 지문 기능이 없는 단말기 또는 지문 방식을 쓰지 않고자 하는 사용자에게 적합합니다." />
         </LinearLayout>
 

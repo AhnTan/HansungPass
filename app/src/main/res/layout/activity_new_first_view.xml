@@ -2,7 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
-android:background="@drawable/backlogo3"
+android:background="@drawable/imagelogo5"
 android:orientation="vertical">
 
 
@@ -20,23 +20,19 @@ android:orientation="vertical">
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingBottom="150dp"
         android:layout_gravity="center"
+        android:textSize="17sp"
         android:text="등록된 학생증이 없습니다." />
 
     <Button
         android:id="@+id/nfv_register_btn"
+        android:layout_marginTop="50dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="#da9bd0f4"
+        android:background="#da1b1b1c"
         android:text="등록하기"
         android:textColor="@android:color/background_light" />
 
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_gravity="bottom"
-        android:src="@drawable/imagelogo" />
+
 </FrameLayout>

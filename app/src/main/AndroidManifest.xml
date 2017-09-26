@@ -18,7 +18,7 @@
     <application
         android:allowBackup="true"
         android:icon="@drawable/logo"
-        android:label="한성패스"
+        android:label="HansungPass"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
@@ -28,10 +28,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".NewFirstView" />
-        <activity android:name=".OldFirstView" />
+        <activity android:name=".NewFirstView"/>
+        <activity android:name=".OldFirstView"/>
         <activity android:name=".Setting" />
         <activity android:name=".Finger" />
+
+        
         <activity android:name=".QRcode"
             android:theme="@android:style/Theme.NoTitleBar"/>
         <activity android:name=".SetFPActivity" />

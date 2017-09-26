@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 
 import java.io.BufferedInputStream;
@@ -22,7 +23,6 @@ public class NewFirstView extends BaseActivity {
     private Button btn;
     private Button btn2;
     private Intent settingintent;
-    private RegisterDialog registerDialog;
     private BackPressCloseHandler backPressCloseHandler;
     ImgConnectThread imgthread ;
 
@@ -32,6 +32,7 @@ public class NewFirstView extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_new_first_view);
         pref = getSharedPreferences("pref", MODE_PRIVATE); // Shared Preference를 불러옵니다.
         SharedPreferences.Editor editor = pref.edit(); // Editor를 불러옵니다.
@@ -74,36 +75,6 @@ public class NewFirstView extends BaseActivity {
 
     }
 
-    public void onClickView(View v) {
-        registerDialog = new RegisterDialog(this,
-                "등록하기", // 제목
-                "", // 내용
-                FPlistener, // 왼쪽 버튼 이벤트
-                PTlistener); // 오른쪽 버튼 이벤트
-        registerDialog.show();
-    }
-
-    private View.OnClickListener FPlistener = new View.OnClickListener() {
-        public void onClick(View v) {
-            Intent intent = new Intent(getApplicationContext(), SetFPActivity.class);
-            intent.putExtra("preFPActivity",123);
-            startActivity(intent);
-            registerDialog.dismiss();
-            SetLockActivity.FPcheck = true;
-            SetLockActivity.PTcheck = false;
-        }
-    };
-
-    private View.OnClickListener PTlistener = new View.OnClickListener() {
-        public void onClick(View v) {
-            Intent intent = new Intent(getApplicationContext(), SetPatternActivity.class);
-            //액티비티가 꺼졌다가 켜짐
-            startActivity(intent);
-            SetLockActivity.FPcheck = false;
-            SetLockActivity.PTcheck = true;
-            registerDialog.dismiss();
-        }
-    };
 
     @Override
     public void onBackPressed() {
