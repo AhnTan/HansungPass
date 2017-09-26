@@ -57,6 +57,7 @@ public class NewFirstView extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 settingintent = new Intent(getApplicationContext(), Setting.class);
+
                 startActivity(settingintent);
             }
         });
@@ -75,6 +76,7 @@ public class NewFirstView extends AppCompatActivity {
     private View.OnClickListener FPlistener = new View.OnClickListener() {
         public void onClick(View v) {
             Intent intent = new Intent(getApplicationContext(), SetFPActivity.class);
+            intent.putExtra("preFPActivity",123);
             startActivity(intent);
             registerDialog.dismiss();
             SetLockActivity.FPcheck = true;
