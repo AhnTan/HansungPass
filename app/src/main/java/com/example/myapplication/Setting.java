@@ -77,12 +77,7 @@ public class Setting extends AppCompatActivity {
 
                 data.add(new Setting_item("잠금방식", "지문,패턴"));
 
-                if (PatternLockUtils.hasPattern(getApplicationContext())){
-                    data.add(new Setting_item("패턴 방식", "등록된 패턴이 있습니다."));
-                }
-                else{
-                    data.add(new Setting_item("패턴 방식", "등록된 패턴이 없습니다."));
-                }
+
 
 
                 if(Reprint.hasFingerprintRegistered()) {
@@ -90,6 +85,13 @@ public class Setting extends AppCompatActivity {
                 }
                 else{
                     data.add(new Setting_item("지문 인식", "등록된 지문이 없습니다."));
+                }
+
+                if (PatternLockUtils.hasPattern(getApplicationContext())){
+                    data.add(new Setting_item("패턴 방식", "등록된 패턴이 있습니다."));
+                }
+                else{
+                    data.add(new Setting_item("패턴 방식", "등록된 패턴이 없습니다."));
                 }
                 //bit.recycle();
                 //bit2.recycle();

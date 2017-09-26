@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
@@ -18,7 +17,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 
-public class NewFirstView extends AppCompatActivity {
+public class NewFirstView extends BaseActivity {
 
     private Button btn;
     private Button btn2;

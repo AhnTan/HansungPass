@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.myapplication.SetLockActivity"
-    android:padding="7dp">
+    android:padding="15dp"
+    tools:context="com.example.myapplication.SetLockActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,11 +13,45 @@
         android:layout_weight="1"
         android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/imageView"
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="282dp"
-            app:srcCompat="@drawable/exp" />
+            android:layout_height="wrap_content"
+            android:text="학생증을 불러오는 방법에는 지문과 패턴이 있습니다." />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                app:srcCompat="@drawable/fingerlock" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="지문방식은 대조하려는 지문이 사용자의 단말기에 등록되어 있는 지문과 일치해야 학생증이 로딩되기 때문에 절대 도용이 불가능합니다." />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="100dp"
+                app:srcCompat="@drawable/patternlock" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="패턴 방식은 사용자가 원하는 패턴을 등록, 입력하여 학생증을 불러오는 방식으로, 지문 기능이 없는 단말기 또는 지문 방식을 쓰지 않고자 하는 사용자에게 적합합니다." />
+        </LinearLayout>
 
         <Switch
             android:id="@+id/FPsb"

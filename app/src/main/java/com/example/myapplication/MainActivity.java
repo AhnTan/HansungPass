@@ -10,7 +10,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
 import android.view.View;
 import android.widget.Button;
@@ -28,7 +27,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 //mm
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
     String host = "223.194.158.91";    // 서버 컴퓨터 IP
     //String host = "121.161.183.214";
     int port = 5001;
