@@ -2,13 +2,13 @@ package com.example.myapplication;
 
 import android.os.Bundle;
 
+import com.example.myapplication.patternlock.PatternView;
 import com.example.myapplication.util.PatternLockUtils;
 import com.example.myapplication.util.PreferenceContract;
 import com.example.myapplication.util.PreferenceUtils;
 import com.example.myapplication.util.ThemeUtils;
 
 import java.util.List;
-import com.example.myapplication.patternlock.PatternView;
 
 public class ConfirmPatternActivity extends com.example.myapplication.patternlock.ConfirmPatternActivity {
 

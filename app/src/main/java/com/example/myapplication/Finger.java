@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -13,7 +12,7 @@ import com.github.ajalt.reprint.core.AuthenticationFailureReason;
 import com.github.ajalt.reprint.core.AuthenticationListener;
 import com.github.ajalt.reprint.core.Reprint;
 
-public class Finger extends AppCompatActivity {
+public class Finger extends BaseActivity {
     private ImageView img;
     private Handler mHandler;
     private Bundle bundle;
@@ -67,6 +66,7 @@ public class Finger extends AppCompatActivity {
                 @Override
                 public void onSuccess(int moduleTag) {
                     img.setImageResource(R.drawable.success);
+                    intent = new Intent(getApplicationContext(),QRcode.class);
                     try {
                         Thread.sleep(1000);
                     } catch (Exception e) {

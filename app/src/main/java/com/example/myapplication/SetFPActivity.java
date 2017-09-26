@@ -3,11 +3,10 @@ package com.example.myapplication;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-public class SetFPActivity extends AppCompatActivity {
+public class SetFPActivity extends BaseActivity {
 
     Intent preIntent;
     int pre=0;

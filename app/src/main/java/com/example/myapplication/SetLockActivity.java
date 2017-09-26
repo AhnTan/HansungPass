@@ -2,14 +2,13 @@ package com.example.myapplication;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Switch;
 import android.widget.Toast;
 
 import com.github.ajalt.reprint.core.Reprint;
 
-public class SetLockActivity extends AppCompatActivity {
+public class SetLockActivity extends BaseActivity {
 
     public static Boolean FPcheck;
     public static Boolean PTcheck;
