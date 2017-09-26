@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/mainbackp2"
+    android:background="@drawable/backlogo3"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -9,8 +9,8 @@
 
     <ImageView
         android:id="@+id/login_logo_img"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="70dp"
         android:layout_marginTop="80dp"
@@ -22,30 +22,34 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:gravity="center_horizontal"
+        android:background="#96ffffff"
+        android:textStyle="bold"
         android:text="종합정보시스템 ID/PW를 입력하세요"
         android:textSize="16sp" />
 
     <EditText
         android:id="@+id/login_id_et"
-        android:layout_width="wrap_content"
+        android:layout_width="210dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:background="#96ffffff"
         android:ems="10"
         android:hint="학번(ID)"
-        android:text="1391080"
         android:inputType="textPersonName"
-        android:textColor="@android:color/darker_gray" />
+        android:text="1591033"
+        android:textColor="#302f2f" />
 
     <EditText
         android:id="@+id/login_pw_et"
-        android:layout_width="wrap_content"
+        android:background="#96ffffff"
+        android:layout_width="210dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:ems="10"
         android:hint="비밀번호(Password)"
         android:text="123456"
         android:inputType="textPassword"
-        android:textColor="@android:color/darker_gray" />
+        android:textColor="#302f2f" />
 
     <Button
         android:id="@+id/login_btn"
@@ -53,7 +57,7 @@
         android:layout_height="35dp"
         android:layout_gravity="center_horizontal"
         android:layout_margin="10dp"
-        android:background="@android:color/holo_blue_dark"
+        android:background="#da9bd0f4"
         android:text="Login"
         android:textColor="@android:color/background_light" />
 </LinearLayout>

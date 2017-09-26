@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/backlogo3"
     android:padding="7dp">
 
     <FrameLayout
@@ -51,7 +52,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_margin="10dp"
         android:layout_marginBottom="150dp"
-        android:background="@android:color/holo_blue_dark"
+        android:background="#da9bd0f4"
         android:text="학생증 불러오기"
         android:textColor="@android:color/background_light"
         android:textSize="20dp" />

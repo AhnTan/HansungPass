@@ -63,7 +63,7 @@ public class NewFirstView extends AppCompatActivity {
 
 
         //설정버튼
-        btn2 = (Button) findViewById(R.id.nfv_setting_btn);
+/*        btn2 = (Button) findViewById(R.id.nfv_setting_btn);
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,7 +71,7 @@ public class NewFirstView extends AppCompatActivity {
 
                 startActivity(settingintent);
             }
-        });
+        });*/
 
     }
 
