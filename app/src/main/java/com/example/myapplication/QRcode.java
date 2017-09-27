@@ -31,9 +31,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class QRcode extends FragmentActivity {
-    //String host = "223.194.134.161";    // 서버 컴퓨터 IP
-    //String host = "121.161.183.214";
-    //int port = 5001;
+
     private Handler mHandler;
     private Handler timerHandler;
     private Handler stopHandler;
@@ -46,7 +44,6 @@ public class QRcode extends FragmentActivity {
 
     private ConnectThread thread;
     private TimerThread thread2;
-    //private pausetimer thread3;
     private onTimeThread thread4;
     static int k = 3000;
     private long now;
@@ -60,7 +57,6 @@ public class QRcode extends FragmentActivity {
     private TextView timev;
     private ImageButton ibtn;
     private SharedPreferences se;
-
     private SharedPreferences st;
 
     int reset_btn_count;
@@ -81,10 +77,9 @@ public class QRcode extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        //requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_qrcode);
 
-        user_imgview = (ImageView)findViewById(R.id.qr_stu_img);
+        user_imgview = (ImageView) findViewById(R.id.qr_stu_img);
 
         st = getSharedPreferences("storage", MODE_APPEND);
         storage = st.getString("storage", "");
@@ -92,8 +87,7 @@ public class QRcode extends FragmentActivity {
         System.out.println("99-99 핸들러에서 가져온 이미지 경로 " + storage);
 
         userimg_bitmap = BitmapFactory.decodeFile(storage);
-        //bmpWidth = iv.getWidth();
-        //bmpHeight = iv.getHeight();
+
         bmpWidth = userimg_bitmap.getWidth();
         bmpHeight = userimg_bitmap.getHeight();
 
@@ -108,13 +102,10 @@ public class QRcode extends FragmentActivity {
         Bitmap resizedBitmap = Bitmap.createBitmap(userimg_bitmap, 0, 0, bmpWidth, bmpHeight, matrix, true);
         user_imgview.setImageBitmap(resizedBitmap);
 
-
-
-        //se = getSharedPreferences("id", 0);
         //스샷막아주는 코드
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
 
-        reset_btn_count=0;
+        reset_btn_count = 0;
 
         backPressCloseHandler = new BackPressCloseHandler(this); //뒤로버튼 종료
 
@@ -122,15 +113,15 @@ public class QRcode extends FragmentActivity {
         thread.start();
 
 
-        timev = (TextView)findViewById(R.id.qr_timer_t);
-        ibtn = (ImageButton)findViewById(R.id.qr_time);
+        timev = (TextView) findViewById(R.id.qr_timer_t);
+        ibtn = (ImageButton) findViewById(R.id.qr_time);
         dateNow = (TextView) findViewById(R.id.qr_date);
         dateNow_b = (TextView) findViewById(R.id.qr_date_b);
 
 
         //서버에서 받은 QR코드 url을 핸들러를 통해 웹뷰에 붙여줌
-        mHandler = new Handler(){
-            public void handleMessage(Message msg){
+        mHandler = new Handler() {
+            public void handleMessage(Message msg) {
                 super.handleMessage(msg);
                 bundle = msg.getData();
                 String qr = bundle.getString("qr_key");
@@ -143,9 +134,9 @@ public class QRcode extends FragmentActivity {
                 Log.d("aabbccdd", qr_id);
                 Log.d("bbddee", md5);
 
-                TextView name_tv = (TextView)findViewById(R.id.qr_stu_name);
+                TextView name_tv = (TextView) findViewById(R.id.qr_stu_name);
                 name_tv.setText(user_name);
-                TextView id_tv = (TextView)findViewById(R.id.qr_stu_id);
+                TextView id_tv = (TextView) findViewById(R.id.qr_stu_id);
                 id_tv.setText(user_id);
 
                 // QRCodeWriter 라이브러리
@@ -166,8 +157,8 @@ public class QRcode extends FragmentActivity {
             }
         };
 
-        stopHandler = new Handler(){
-            public void handleMessage(Message msg){
+        stopHandler = new Handler() {
+            public void handleMessage(Message msg) {
                 super.handleMessage(msg);
                 bundle = msg.getData();
                 String qr = bundle.getString("qr_key");
@@ -183,91 +174,40 @@ public class QRcode extends FragmentActivity {
                     e.printStackTrace();
                 }
 
-
-                //Toast.makeText(getApplicationContext(), bundle.getString("key") , Toast.LENGTH_SHORT).show();
             }
         };
 
-        ontimeHandler = new Handler(){
-            public void handleMessage(Message msg){
+        ontimeHandler = new Handler() {
+            public void handleMessage(Message msg) {
                 super.handleMessage(msg);
                 bundle = msg.getData();
                 //Uri uri = Uri.parse(s);
                 String a = bundle.getString("year");
                 String b = bundle.getString("sec");
-
-                //int timess = ontimebundle.getInt("timer");
-                //Toast.makeText(getApplicationContext(), "kkk" , Toast.LENGTH_SHORT).show();
-                //timev.setText(Integer.toString(timess));
-
-
                 dateNow.setText(a);
                 dateNow_b.setText(b);
             }
         };
 
-
-        /*
-        //유저이미지 나오게하는 핸들러
-        userimgHandler = new Handler(){
-            public void handleMessage(Message msg){
-                super.handleMessage(msg);
-                userimgbundle = msg.getData();
-                String uimg = userimgbundle.getString("userimg");
-                System.out.println("99-99 핸들러에서 가져온 이미지 경로 ");
-
-                userimg_bitmap = BitmapFactory.decodeFile(uimg);
-                //bmpWidth = iv.getWidth();
-                //bmpHeight = iv.getHeight();
-                bmpWidth = userimg_bitmap.getWidth();
-                bmpHeight = userimg_bitmap.getHeight();
-
-                System.out.println("이미지뷰 길이 : " + bmpWidth);
-                System.out.println("이미지뷰 높이 : " + bmpHeight);
-
-                Matrix matrix = new Matrix();
-                matrix.postScale(curScale, curScale);
-                matrix.postRotate(curRotate);
-                matrix.postSkew(curSkewX, curSkewY);
-
-                Bitmap resizedBitmap = Bitmap.createBitmap(userimg_bitmap, 0, 0, bmpWidth, bmpHeight, matrix, true);
-                user_imgview.setImageBitmap(resizedBitmap);
-
-                //drawMatrix();
-            }
-        };
-*/
-
         // 시간초 나오게하는 핸들러
-        timerHandler = new Handler(){
-            public void handleMessage(Message msg){
+        timerHandler = new Handler() {
+            public void handleMessage(Message msg) {
                 super.handleMessage(msg);
                 timerbundle = msg.getData();
-                //Uri uri = Uri.parse(s);
                 int timess = timerbundle.getInt("timer");
-                //Toast.makeText(getApplicationContext(), "kkk" , Toast.LENGTH_SHORT).show();
                 timev.setText(Integer.toString(timess));
 
-                if(timess < 15){
-                    //timev.setVisibility(View.INVISIBLE);
-                    if(reset_btn_count==0) {
+                if (timess < 15) {
+                    if (reset_btn_count == 0) {
                         ibtn.setVisibility(View.VISIBLE);
                     }
-                }else{
+                } else {
                     timev.setVisibility(View.VISIBLE);
                     ibtn.setVisibility(View.INVISIBLE);
                 }
-
-                //Toast.makeText(getApplicationContext(), timerbundle.getString("timer") , Toast.LENGTH_SHORT).show();
             }
         };
 
-
-        /*
-        thread3 = new pausetimer();
-        thread3.setDaemon(true);
-        thread3.start();
-        */
         thread2 = new TimerThread();
         thread2.setDaemon(true);
         thread2.start();
@@ -280,38 +220,18 @@ public class QRcode extends FragmentActivity {
 
     @Override
     public void onBackPressed() {
-        //super.onBackPressed();
         backPressCloseHandler.onBackPressed();
-        /*
-        am = (ActivityManager)getSystemService(ACTIVITY_SERVICE);
-        am.restartPackage(getPackageName());*/
     }
 
-/*
-    @Override
-    public void onBackPressed() {
-        Intent intent = new Intent(getApplicationContext(),OldFirstView.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        thread.interrupt();
-        thread2.interrupt();
-        thread4.interrupt();
-
-        //thread.setDaemon(true);
-        //thread2.setDaemon(true);
-        //thread4.setDaemon(true);
-        startActivity(intent);
-        super.onBackPressed();
-    }*/
-
     // 새로운 QR코드를 받고싶을때 버튼 이벤트
-    public void onButtonClicked(View v){
+    public void onButtonClicked(View v) {
 
         reset_btn_count++;
 
-        k=0;
+        k = 0;
 
-        timev = (TextView)findViewById(R.id.qr_timer_t);
-        ibtn = (ImageButton)findViewById(R.id.qr_time);
+        timev = (TextView) findViewById(R.id.qr_timer_t);
+        ibtn = (ImageButton) findViewById(R.id.qr_time);
         ibtn.setVisibility(View.INVISIBLE);
         timev.setVisibility(View.VISIBLE);
 
@@ -326,9 +246,9 @@ public class QRcode extends FragmentActivity {
 
     }
 
-    class onTimeThread extends Thread{
+    class onTimeThread extends Thread {
         public void run() {
-            while(true) {
+            while (true) {
                 // 현재시간을 msec 으로 구한다.
                 now = System.currentTimeMillis();
                 // 현재시간을 date 변수에 저장한다.
@@ -352,17 +272,17 @@ public class QRcode extends FragmentActivity {
     }
 
 
-    class TimerThread extends Thread{
-        ProgressBar progressBar = (ProgressBar)findViewById(R.id.qr_bar);
+    class TimerThread extends Thread {
+        ProgressBar progressBar = (ProgressBar) findViewById(R.id.qr_bar);
 
-        public void run(){
+        public void run() {
             // 프로그래스바 (위와 동일)
 
-            k=30;
+            k = 30;
             //시간 지날때마다 진동
-            final Vibrator vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
+            final Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
-            for(; k>=0; k--){
+            for (; k >= 0; k--) {
                 progressBar.setProgress(k);
 
                 Bundle tbundle = new Bundle();
@@ -372,11 +292,9 @@ public class QRcode extends FragmentActivity {
                 timerHandler.sendMessage(timermsg);
                 vibrator.vibrate(10);
 
-                try{
+                try {
                     Thread.sleep(998);
-                }
-
-                catch(Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                     return;
                 }
@@ -390,7 +308,7 @@ public class QRcode extends FragmentActivity {
     }
 
     // 쓰레드 (서버연결 및 프로그래스바) - 현재는 임시로 한 쓰레드에 그냥 넣어둠
-    class ConnectThread extends Thread{
+    class ConnectThread extends Thread {
         //ProgressBar progressBar = (ProgressBar)findViewById(R.id.qr_bar);
         public void run() {
             String host = "113.198.84.23";
@@ -441,69 +359,12 @@ public class QRcode extends FragmentActivity {
                 msg.setData(bundle);
                 mHandler.sendMessage(msg);
 
-
-/*
-                //유저이미지처리 부분
-                UserImageView user_imageview = new UserImageView(socket);
-                userimgbundle = new Bundle();
-                userimgbundle.putString("userimg", user_imageview.userbitmap());
-                Message user_msg = new Message();
-                user_msg.setData(userimgbundle);
-                userimgHandler.sendMessage(user_msg);
-*/
-
-
-                /*
-                //이미지 파일 읽어들이는 부분
-                BufferedInputStream bis = new BufferedInputStream(socket.getInputStream());
-                DataInputStream dis = new DataInputStream(bis);
-
-                int filesCount = dis.readInt();  //파일 갯수 읽음
-                System.out.println("1-1 filescount : " + filesCount);
-                File[] files = new File[filesCount]; // 파일을 read한 것 받아 놓습니다.
-                System.out.println("1-2 for문 시작전 : ");
-                for (int i = 0; i < filesCount; i++) {   //파일 갯수 만큼 for문 돕니다.
-                    System.out.println("1-3 for들어옴 : ");
-                    long fileLength = dis.readLong();    //파일 길이 받습니다.
-                    String fileName = dis.readUTF();     //파일 이름 받습니다.
-
-                    System.out.println("수신 파일 이름 : " + fileName);
-
-                    files[i] = new File(fileName);
-                    System.out.println("1-4 파일 저장? : ");
-                    FileOutputStream fos = openFileOutput(files[i].getName(), Context.MODE_PRIVATE);
-                    // FileOutputStream fos = new FileOutputStream(files[i]); // 읽은 파일들 폰에서 지정한 폴더로 내보냅니다.
-                    System.out.println("1-5 파일 지정폴더로 보냄? : ");
-                    BufferedOutputStream bos = new BufferedOutputStream(fos);
-                    System.out.println("1-6 파일복사 저장 for문 전:");
-                    for (int j = 0; j < fileLength; j++) //파일 길이 만큼 읽습니다.
-                        bos.write(bis.read());
-                    System.out.println("1-7 파일 복사 성공? : ");
-                    bos.flush();
-
-                    storage = getFilesDir().toString();
-                    System.out.println("1-8 파일 위치 : " + storage);
-                }
-
-
-                userimgbundle = new Bundle();
-                userimgbundle.putString("userimg", storage + "/" + input2 + ".jpg");
-                Message user_msg = new Message();
-                user_msg.setData(userimgbundle);
-                userimgHandler.sendMessage(user_msg);
-
-*/
-
-                //dis.close();
-
-
                 instream.close();
                 instream2.close();
                 instream3.close();
                 outstream.close();
                 socket.close();
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println("접근실패");
                 return;
@@ -511,14 +372,14 @@ public class QRcode extends FragmentActivity {
         }
     }
 
-    public static Bitmap toBitmap(BitMatrix martrix){
+    public static Bitmap toBitmap(BitMatrix martrix) {
         int height = martrix.getHeight();
         int width = martrix.getWidth();
 
         Bitmap bmp = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        for(int i = 0; i<width; i++){
-            for(int j = 0; j<height; j++){
-                bmp.setPixel(i,j,martrix.get(i,j) ? Color.BLACK : Color.alpha(1));
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                bmp.setPixel(i, j, martrix.get(i, j) ? Color.BLACK : Color.alpha(1));
             }
         }
         return bmp;

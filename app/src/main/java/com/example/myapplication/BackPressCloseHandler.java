@@ -4,9 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.widget.Toast;
 
-/**
- * Created by SJE on 2017-09-17.
- */
+// ※ 취소버튼 2번 클릭 시 app 종료
 
 public class BackPressCloseHandler {
 
@@ -26,18 +24,11 @@ public class BackPressCloseHandler {
             return;
         }
         if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {
-
             Intent t = new Intent(activity, MainActivity.class);
             activity.startActivity(t);
             activity.moveTaskToBack(true);
             activity.finish();
             android.os.Process.killProcess(android.os.Process.myPid());
-/*//
-            activity.finish();
-            toast.cancel();*//*
-            Intent intent = new Intent(getApplicationContext(), Home.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);*/
         }
     }
 

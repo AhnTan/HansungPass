@@ -24,7 +24,7 @@ public class NewFirstView extends BaseActivity {
     private Button btn2;
     private Intent settingintent;
     private BackPressCloseHandler backPressCloseHandler;
-    ImgConnectThread imgthread ;
+    ImgConnectThread imgthread;
 
     SharedPreferences pref;
 
@@ -50,7 +50,8 @@ public class NewFirstView extends BaseActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(),SetPatternActivity.class);
+                Intent intent = new Intent(getApplicationContext(), SetPatternActivity.class);
+                intent.putExtra("preSetPattern","NewFirstView");
                 startActivity(intent);
             }
             //Intent mainintent = getIntent();
@@ -61,28 +62,12 @@ public class NewFirstView extends BaseActivity {
 
         });
 
-
-        //설정버튼
-/*        btn2 = (Button) findViewById(R.id.nfv_setting_btn);
-        btn2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                settingintent = new Intent(getApplicationContext(), Setting.class);
-
-                startActivity(settingintent);
-            }
-        });*/
-
     }
-
 
     @Override
     public void onBackPressed() {
         //super.onBackPressed();
         backPressCloseHandler.onBackPressed();
-        /*
-        am = (ActivityManager)getSystemService(ACTIVITY_SERVICE);
-        am.restartPackage(getPackageName());*/
     }
 
     class ImgConnectThread extends Thread {
@@ -96,7 +81,6 @@ public class NewFirstView extends BaseActivity {
         SharedPreferences storage_pref;
         SharedPreferences.Editor storage_commit;
 
-        //ProgressBar progressBar = (ProgressBar)findViewById(R.id.qr_bar);
         public void run() {
 
             String host = "113.198.84.23";

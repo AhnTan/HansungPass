@@ -27,10 +27,8 @@ import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-//mm
 public class MainActivity extends BaseActivity {
     String host = "223.194.158.91";    // 서버 컴퓨터 IP
-    //String host = "121.161.183.214";
     int port = 5001;
     FirstConnectThread thread;
     Bundle bundle;
@@ -43,10 +41,6 @@ public class MainActivity extends BaseActivity {
     String formatDate;
     TextView dateNow;
     private SharedPreferences pref;
-    //※※※※※※ 신규, 기존 회원 구별
-   // private SharedPreferences memberPref;
-  //  int loginNum = 0;
-    //※※※※※※
     private TelephonyManager telephonyManager;
     private EditText Stuid;
     Intent intent;
@@ -62,7 +56,6 @@ public class MainActivity extends BaseActivity {
 
         Intent myIntent = new Intent(getApplicationContext(), MainActivity.class);
         myIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-
 
         String state = Environment.getExternalStorageState();
         if ((ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED) || (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED)) {
@@ -88,14 +81,14 @@ public class MainActivity extends BaseActivity {
         pref = getSharedPreferences("pref", MODE_PRIVATE);
         final SharedPreferences.Editor editor = pref.edit();
 
-                Button btn = (Button) findViewById(R.id.login_btn);
-                btn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+        Button btn = (Button) findViewById(R.id.login_btn);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-                        //intent = new Intent(getApplicationContext(),NewFirstView.class);
-                        //startActivity(intent);
-                        thread = new FirstConnectThread();
+                // intent = new Intent(getApplicationContext(),NewFirstView.class);
+                // startActivity(intent);
+                thread = new FirstConnectThread();
                 thread.start();
             }
         });
@@ -125,55 +118,35 @@ public class MainActivity extends BaseActivity {
         SharedPreferences storage_pref;
         SharedPreferences.Editor storage_commit;
 
-        //ProgressBar progressBar = (ProgressBar)findViewById(R.id.qr_bar);
         public void run() {
 
             String host = "113.198.84.23";
 
-         //   memberPref = getSharedPreferences("memberPref", MODE_PRIVATE);
-         //   final SharedPreferences.Editor memberEditor = memberPref.edit();
             try {
                 Socket socket = new Socket(host, port);
                 System.out.println("서버로 연결되었습니다. : " + host + ", " + port);
-                //Toast.makeText(MainActivity.this, "connect server : " + host + ", " + port , Toast.LENGTH_SHORT).show();
                 telephonyManager = (TelephonyManager) getSystemService(getApplicationContext().TELEPHONY_SERVICE);
                 String output_num = telephonyManager.getLine1Number();
                 output_num = output_num.replace("+82", "0");
                 EditText id = (EditText) findViewById(R.id.login_id_et);
                 EditText password = (EditText) findViewById(R.id.login_pw_et);
 
-                //String output = m_etSendData.getText().toString();
                 output_id = id.getText().toString();
-                ;
                 ObjectOutputStream outstream = new ObjectOutputStream(socket.getOutputStream());
                 outstream.writeObject(output_id);
                 outstream.flush();
                 System.out.println("서버로 보낸 데이터 : " + output_id);
-                //Toast.makeText(MainActivity.this, "서버로 보낸 데이터 : " + output , Toast.LENGTH_SHORT).show();
 
                 output_pw = password.getText().toString() + "%3B%3B" + output_num;
-                //output_pw = formatDate;
                 ObjectOutputStream outstream2 = new ObjectOutputStream(socket.getOutputStream());
                 outstream2.writeObject(output_pw);
                 outstream2.flush();
                 System.out.println("서버로 보낸 데이터 : " + output_pw);
 
                 ObjectInputStream instream = new ObjectInputStream(socket.getInputStream());
-                //Bitmap bitmap = (Bitmap)instream.readObject();
                 input = instream.readObject();
-                //System.out.println(instream.readObject());
                 System.out.println("서버로부터 받은 데이터: " + input);
 
-
-                //Toast.makeText(getApplicationContext(), "서버로부터 받은 데이터 : " + input , Toast.LENGTH_SHORT).show();
-
-                /*
-                // 서버에서 허가를 받으면 다음 화면으로
-                if(input.toString().equals("허가")){
-                    Intent intent = new Intent(getApplicationContext(),NewFirstView.class);
-                    startActivity(intent);
-                }
-                */
 
                 if (input.toString().equals("허가")) {
                     //intent.putExtra("pid", id.getText().toString());
@@ -184,29 +157,11 @@ public class MainActivity extends BaseActivity {
                     id_commit.commit();
                     System.out.println(">>>>>>>>>>>>>>>> : " + id_pref.getString("id", ""));
 
-
-
-                    /*/※※※※※※ 신규, 기존 회원 구별
-
-                    int loginNum2 = memberPref.getInt("loginNum", 0);
-                    Intent intent;
-                    loginNum += 1;
-                    if (loginNum2 < 1) {
-                        intent = new Intent(getApplicationContext(), NewFirstView.class);
-                    } else intent = new Intent(getApplicationContext(), OldFirstView.class);
-                    memberEditor.putInt("loginNum", loginNum);
-                    memberEditor.commit();
-
-
-                    //※※※※※※*/
-
                     Reprint.initialize(getApplicationContext());
                     //지문이 단말기에 등록되어있는지 ||  패턴이 등록되어있는지 확인하는 조건문!!
-                    if (PatternLockUtils.hasPattern(getApplicationContext()))
-                    {
+                    if (PatternLockUtils.hasPattern(getApplicationContext())) {
                         intent = new Intent(getApplicationContext(), OldFirstView.class);
-                    }
-                    else
+                    } else
                         intent = new Intent(getApplicationContext(), NewFirstView.class);
 
                     startActivity(intent);
@@ -218,7 +173,6 @@ public class MainActivity extends BaseActivity {
                     msg.setData(bundle);
                     mHandler.sendMessage(msg);
                 }
-
                 instream.close();
                 outstream.close();
                 socket.close();
@@ -233,11 +187,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        //super.onBackPressed();
         backPressCloseHandler.onBackPressed();
-        /*
-        am = (ActivityManager)getSystemService(ACTIVITY_SERVICE);
-        am.restartPackage(getPackageName());*/
     }
 
 }

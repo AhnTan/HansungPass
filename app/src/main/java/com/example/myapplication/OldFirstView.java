@@ -56,9 +56,6 @@ public class OldFirstView extends BaseActivity {
     public void onBackPressed() {
         //super.onBackPressed();
         backPressCloseHandler.onBackPressed();
-        /*
-        am = (ActivityManager)getSystemService(ACTIVITY_SERVICE);
-        am.restartPackage(getPackageName());*/
     }
 
 }

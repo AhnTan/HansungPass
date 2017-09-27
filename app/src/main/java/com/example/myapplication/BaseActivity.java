@@ -6,9 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-/**
- * Created by jinsorin on 2017-09-27.
- */
+// ※ font를 변경하기 위한 class
 
 public class BaseActivity extends AppCompatActivity {
     private static Typeface typeface;
@@ -16,20 +14,20 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     public void setContentView(int layoutResID) {
         super.setContentView(layoutResID);
-        if(typeface == null) {
+        if (typeface == null) {
             typeface = Typeface.createFromAsset(this.getAssets(), "SeoulNamsanEB.ttf");
         }
         setGlobalFont(getWindow().getDecorView());
     }
 
     private void setGlobalFont(View view) {
-        if(view != null) {
-            if(view instanceof ViewGroup) {
-                ViewGroup viewGroup = (ViewGroup)view;
+        if (view != null) {
+            if (view instanceof ViewGroup) {
+                ViewGroup viewGroup = (ViewGroup) view;
                 int vgCnt = viewGroup.getChildCount();
-                for(int i = 0; i<vgCnt; i++) {
+                for (int i = 0; i < vgCnt; i++) {
                     View v = viewGroup.getChildAt(i);
-                    if(v instanceof TextView) {
+                    if (v instanceof TextView) {
                         ((TextView) v).setTypeface(typeface);
                     }
                     setGlobalFont(v);

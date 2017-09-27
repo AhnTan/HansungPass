@@ -38,20 +38,6 @@ public class ConfirmPatternActivity extends BasePatternActivity
                 onCancel();
             }
         });
-       /* mRightButton.setText(R.string.pl_forgot_pattern);
-        mRightButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onForgotPassword();
-            }
-        });
-        ViewAccessibilityCompat.announceForAccessibility(mMessageText, mMessageText.getText());
-
-        if (savedInstanceState == null) {
-            mNumFailedAttempts = 0;
-        } else {
-            mNumFailedAttempts = savedInstanceState.getInt(KEY_NUM_FAILED_ATTEMPTS);
-        }*/
     }
 
     @Override
@@ -82,6 +68,8 @@ public class ConfirmPatternActivity extends BasePatternActivity
             if(preIntent.getExtras().getString("preActivity").equals("OldFirstView"))
                 intent.setComponent(new ComponentName("com.example.myapplication", "com.example.myapplication.QRcode"));
             else {intent.setComponent(new ComponentName("com.example.myapplication", "com.example.myapplication.SetPatternActivity"));
+                intent.putExtra("preSetPattern","ConfirmPatternActivity");
+
                 overridePendingTransition(0, 0);
             }
 

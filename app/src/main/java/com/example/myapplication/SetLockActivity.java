@@ -43,8 +43,6 @@ public class SetLockActivity extends BaseActivity {
                     PTsb.setChecked(false);
                     FPcheck = true;
                     PTcheck = false;
-                    //System.out.println("지문 o - 지문은 : " + FPcheck.toString() + "패턴은 : " + PTcheck.toString());
-
 
                 } else {
                     Toast.makeText(getApplicationContext(), "지문을 먼저 등록 후 사용해주세요.", Toast.LENGTH_LONG).show();
@@ -54,7 +52,6 @@ public class SetLockActivity extends BaseActivity {
 
                     FPcheck = false;
                     PTcheck = true;
-                    //System.out.println("지문 x - 지문은 : " + FPcheck.toString() + "패턴은 : " + PTcheck.toString());
                 }
             }
         });
@@ -67,8 +64,6 @@ public class SetLockActivity extends BaseActivity {
 
                 FPcheck = false;
                 PTcheck = true;
-
-                //System.out.println("패턴눌렀을때 - 지문은 : " + FPcheck.toString() + "패턴은 : " + PTcheck.toString());
             }
         });
 

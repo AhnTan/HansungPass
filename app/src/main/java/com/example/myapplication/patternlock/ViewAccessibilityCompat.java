@@ -7,7 +7,9 @@ import android.view.View;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityManager;
 
-class ViewAccessibilityCompat {
+import com.example.myapplication.BaseActivity;
+
+class ViewAccessibilityCompat extends BaseActivity {
 
     private ViewAccessibilityCompat() {}
 

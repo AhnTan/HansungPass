@@ -1,14 +1,14 @@
 package com.example.myapplication.patternlock;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.myapplication.BaseActivity;
 import com.example.myapplication.R;
 
-public class BasePatternActivity extends AppCompatActivity {
+public class BasePatternActivity extends BaseActivity {
 
     private static final int CLEAR_PATTERN_DELAY_MILLI = 2000;
 

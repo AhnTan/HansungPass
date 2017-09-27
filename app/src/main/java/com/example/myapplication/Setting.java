@@ -3,7 +3,6 @@ package com.example.myapplication;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -15,7 +14,7 @@ import com.github.ajalt.reprint.core.Reprint;
 
 import java.util.ArrayList;
 
-public class Setting extends AppCompatActivity {
+public class Setting extends BaseActivity {
 
     private ArrayList<Setting_item> data;
     private ListView lv;
@@ -52,51 +51,21 @@ public class Setting extends AppCompatActivity {
             data = params[0];
             try {
                 System.out.print("kkkkkkkkkk");
-                /*
-                data.add(new SearchMenuItem("http://postfiles3.naver.net/MjAxNzA3MDlfMTgz/MDAxNDk5NTk2MDQzNTY4.dcqXJ2l082zDIAwWcY8wW8YqvW2j2doV3k-Ydgdr7Lkg.pGBZhhjqO6EIr5qsVZQZOCAyhxHNsvZOsBMQo3Quu58g.JPEG.h7678036/b.jpg?type=w2"));
-                data.add(new SearchMenuItem("http://postfiles1.naver.net/MjAxNzA3MDlfOTgg/MDAxNDk5NTk2MDI4NDU4.EORNoqQdI72ZfxlMaewg5mtoLm6iEZeU0QnXDRiQO_Mg.9SO9F8yBL3Uf_ZHnFWPChscvJR8Prx68RVhoIqd6mI0g.JPEG.h7678036/a.jpg?type=w2"));
-                data.add(new SearchMenuItem("http://postfiles13.naver.net/MjAxNzA3MDlfMjEg/MDAxNDk5NTk2ODM2ODI4.XBzWfFiMfGO77qYMbM6dLYknW-1vG_v2mmD2Pf8YU44g.hfhytFkOypfSyplaUAapOKzb86wVSqpDIa61MEQjmgcg.JPEG.h7678036/c.jpg?type=w2"));
-                data.add(new SearchMenuItem("http://postfiles3.naver.net/MjAxNzA3MDlfMTgz/MDAxNDk5NTk2MDQzNTY4.dcqXJ2l082zDIAwWcY8wW8YqvW2j2doV3k-Ydgdr7Lkg.pGBZhhjqO6EIr5qsVZQZOCAyhxHNsvZOsBMQo3Quu58g.JPEG.h7678036/b.jpg?type=w2"));
-                data.add(new SearchMenuItem("http://postfiles1.naver.net/MjAxNzA3MDlfOTgg/MDAxNDk5NTk2MDI4NDU4.EORNoqQdI72ZfxlMaewg5mtoLm6iEZeU0QnXDRiQO_Mg.9SO9F8yBL3Uf_ZHnFWPChscvJR8Prx68RVhoIqd6mI0g.JPEG.h7678036/a.jpg?type=w2"));
-                data.add(new SearchMenuItem("http://postfiles13.naver.net/MjAxNzA3MDlfMjEg/MDAxNDk5NTk2ODM2ODI4.XBzWfFiMfGO77qYMbM6dLYknW-1vG_v2mmD2Pf8YU44g.hfhytFkOypfSyplaUAapOKzb86wVSqpDIa61MEQjmgcg.JPEG.h7678036/c.jpg?type=w2"));
-                data.add(new SearchMenuItem("http://postfiles3.naver.net/MjAxNzA3MDlfMTgz/MDAxNDk5NTk2MDQzNTY4.dcqXJ2l082zDIAwWcY8wW8YqvW2j2doV3k-Ydgdr7Lkg.pGBZhhjqO6EIr5qsVZQZOCAyhxHNsvZOsBMQo3Quu58g.JPEG.h7678036/b.jpg?type=w2"));
-                data.add(new SearchMenuItem("http://postfiles1.naver.net/MjAxNzA3MDlfOTgg/MDAxNDk5NTk2MDI4NDU4.EORNoqQdI72ZfxlMaewg5mtoLm6iEZeU0QnXDRiQO_Mg.9SO9F8yBL3Uf_ZHnFWPChscvJR8Prx68RVhoIqd6mI0g.JPEG.h7678036/a.jpg?type=w2"));
-                data.add(new SearchMenuItem("http://postfiles13.naver.net/MjAxNzA3MDlfMjEg/MDAxNDk5NTk2ODM2ODI4.XBzWfFiMfGO77qYMbM6dLYknW-1vG_v2mmD2Pf8YU44g.hfhytFkOypfSyplaUAapOKzb86wVSqpDIa61MEQjmgcg.JPEG.h7678036/c.jpg?type=w2"));
-                */
-                /*
-                data.add(new SearchMenuItem(R.drawable.a));
-                data.add(new SearchMenuItem(R.drawable.a));
-                data.add(new SearchMenuItem(R.drawable.a));
-                data.add(new SearchMenuItem(R.drawable.a));
-                data.add(new SearchMenuItem(R.drawable.a));
-                data.add(new SearchMenuItem(R.drawable.a));
-                data.add(new SearchMenuItem(R.drawable.a));
-                data.add(new SearchMenuItem(R.drawable.a));
-                */
                 Reprint.initialize(getApplicationContext());
 
                 data.add(new Setting_item("잠금방식", "지문,패턴"));
 
-
-
-
-                if(Reprint.hasFingerprintRegistered()) {
+                if (Reprint.hasFingerprintRegistered()) {
                     data.add(new Setting_item("지문 인식", "등록된 지문이 있습니다"));
-                }
-                else{
+                } else {
                     data.add(new Setting_item("지문 인식", "등록된 지문이 없습니다."));
                 }
 
-                if (PatternLockUtils.hasPattern(getApplicationContext())){
+                if (PatternLockUtils.hasPattern(getApplicationContext())) {
                     data.add(new Setting_item("패턴 방식", "등록된 패턴이 있습니다."));
-                }
-                else{
+                } else {
                     data.add(new Setting_item("패턴 방식", "등록된 패턴이 없습니다."));
                 }
-                //bit.recycle();
-                //bit2.recycle();
-                //bit3.recycle();
-                // bit4.recycle();
 
                 adapter = new Setting_adapter(getApplicationContext(), R.layout.activity_setting_item, data);
 
@@ -141,8 +110,8 @@ public class Setting extends AppCompatActivity {
                             break;
                         //패턴방식
                         case 2:
-                            intent = new Intent(getApplicationContext(),ConfirmPatternActivity.class);
-                            intent.putExtra("preActivity","okokok");
+                            intent = new Intent(getApplicationContext(), ConfirmPatternActivity.class);
+                            intent.putExtra("preActivity", "okokok");
                             startActivity(intent);
                             break;
                         //position의 값이 위에서 지정한 case에 하나도 맞지 않을경우

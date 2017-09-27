@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,11 +18,11 @@ public class Setting_adapter extends BaseAdapter {
     private Context mContext;
     private int mResource;
     private ArrayList<Setting_item> mItems = new ArrayList<Setting_item>();
-
     public Setting_adapter(Context context, int resource, ArrayList<Setting_item> items) {
         mContext = context;
         mItems = items;
         mResource = resource;
+
     }
 
 
@@ -43,6 +44,7 @@ public class Setting_adapter extends BaseAdapter {
     static class ViewHolder{
         TextView t1;
         TextView t2;
+
     }
 
     @Override
@@ -54,9 +56,12 @@ public class Setting_adapter extends BaseAdapter {
             holder = new ViewHolder();
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(mResource, parent,false);
-
+            //textView.setTypeface(Typeface.createFromAsset(convertView.getContext().getAssets(), "fonts/NanumBarunGothicBold.ttf"));
             holder.t1 = (TextView)convertView.findViewById(R.id.setting_item_topTextView);
             holder.t2 = (TextView)convertView.findViewById(R.id.setting_item_bottomTextView);
+            Typeface face = Typeface.createFromAsset(convertView.getContext().getAssets(), "SeoulNamsanEB.ttf");
+         holder.t1.setTypeface(face);
+            holder.t2.setTypeface(face);
 
             holder.t1.setText(mItems.get(position).mString);
             holder.t2.setText(mItems.get(position).mString2);

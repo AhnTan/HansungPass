@@ -14,11 +14,13 @@ import java.util.List;
 
 public class SetPatternActivity extends com.example.myapplication.patternlock.SetPatternActivity {
 
+    Intent preIntent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         ThemeUtils.applyTheme(this);
         super.onCreate(savedInstanceState);
         AppUtils.setActionBarDisplayUp(this);
+        preIntent = getIntent();
     }
 
     @Override
@@ -36,21 +38,19 @@ public class SetPatternActivity extends com.example.myapplication.patternlock.Se
     protected void onSetPattern(List<PatternView.Cell> pattern) {
         PatternLockUtils.setPattern(pattern, this);
     }
+            //    intent.putExtra("preSetPattern","ConfirmPatternActivity");                intent.putExtra("preSetPattern","NewFirstView");
 
     @Override
     protected void onStop() {
-
         Intent intent;
-
-        if (PatternLockUtils.hasPattern(getApplicationContext())) {
+        if (PatternLockUtils.hasPattern(getApplicationContext())&& preIntent.getExtras().getString("preSetPattern").equals("NewFirstView")) {
             intent = new Intent(getApplicationContext(), OldFirstView.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             Toast.makeText(getApplicationContext(),"등록에 성공했습니다.",Toast.LENGTH_LONG).show();
             startActivity(intent);
-        } else {
+        } else if(!PatternLockUtils.hasPattern(getApplicationContext())){
              Toast.makeText(getApplicationContext(),"등록에 실패했습니다.\n다시 등록해주세요.",Toast.LENGTH_LONG).show();
         }
-
         super.onStop();
     }
 

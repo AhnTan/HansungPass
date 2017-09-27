@@ -13,8 +13,6 @@
         android:layout_gravity="top"
         android:orientation="vertical">
 
-
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -31,25 +29,31 @@
             android:background="@drawable/setting" />
     </FrameLayout>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="120dp"
-        app:srcCompat="@drawable/idcard" />
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="106dp"
+            app:srcCompat="@drawable/idcard" />
 
-    <Button
-        android:id="@+id/ofv_load_btn"
-        android:layout_width="210dp"
-        android:layout_height="35dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_margin="10dp"
-        android:layout_marginBottom="150dp"
-        android:background="#da1b1b1c"
-        android:text="학생증 불러오기"
-        android:textColor="@android:color/background_light"
-        android:textSize="20dp" />
-
+        <Button
+            android:id="@+id/ofv_load_btn"
+            android:layout_width="210dp"
+            android:layout_height="35dp"
+            android:layout_below="@+id/imageView2"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="48dp"
+            android:background="#da1b1b1c"
+            android:text="학생증 불러오기"
+            android:textColor="@android:color/background_light"
+            android:textSize="20dp" />
+    </RelativeLayout>
 </LinearLayout>

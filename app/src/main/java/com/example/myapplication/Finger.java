@@ -8,6 +8,8 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 import com.github.ajalt.reprint.core.AuthenticationFailureReason;
 import com.github.ajalt.reprint.core.AuthenticationListener;
 import com.github.ajalt.reprint.core.Reprint;
@@ -16,15 +18,8 @@ public class Finger extends BaseActivity {
     private ImageView img;
     private Handler mHandler;
     private Bundle bundle;
-    /*
-    String host = "223.194.158.91";    // 서버 컴퓨터 IP
-    //String host = "121.161.183.214";
-    int port = 5001;
-    */
-    //ConnectThread fingerthread;
-    //Object input;
-    Intent intent;
 
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,13 +29,7 @@ public class Finger extends BaseActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-
-        //Intent beforeintent = getIntent();
-        //String pid = beforeintent.getStringExtra("pid");
-
         intent = new Intent(getApplicationContext(), QRcode.class);
-        //intent.putExtra("pid", pid);
-
 
         mHandler = new Handler() {
             public void handleMessage(Message msg) {
@@ -49,24 +38,24 @@ public class Finger extends BaseActivity {
 
                 String ss = bundle.getString("key");
                 intent.putExtra("finger", ss);
-
-                //Toast.makeText(getApplicationContext(), bundle.getString("key") , Toast.LENGTH_SHORT).show();
             }
         };
 
         img = (ImageView) findViewById(R.id.imageView);
+        GlideDrawableImageViewTarget gifimg = new GlideDrawableImageViewTarget(img);
+        Glide.with(this).load(R.drawable.touchid2).into(gifimg);
+
         Reprint.initialize(this);
 
-        if(!Reprint.hasFingerprintRegistered()){
+        if (!Reprint.hasFingerprintRegistered()) {
             img.setImageResource(R.drawable.failure);
-            Toast.makeText(getApplicationContext(),"이 장치에 등록 된 지문이 없습니다.",Toast.LENGTH_LONG).show();
-        }
-        else {
+            Toast.makeText(getApplicationContext(), "이 장치에 등록 된 지문이 없습니다.", Toast.LENGTH_LONG).show();
+        } else {
             Reprint.authenticate(new AuthenticationListener() {
                 @Override
                 public void onSuccess(int moduleTag) {
-                    img.setImageResource(R.drawable.success);
-                    intent = new Intent(getApplicationContext(),QRcode.class);
+
+                    intent = new Intent(getApplicationContext(), QRcode.class);
                     try {
                         Thread.sleep(1000);
                     } catch (Exception e) {
@@ -94,6 +83,4 @@ public class Finger extends BaseActivity {
         boolean hasRegisteredFlag = Reprint.hasFingerprintRegistered();
         return fingerprintFlag && hasRegisteredFlag;
     }
-
-
 }

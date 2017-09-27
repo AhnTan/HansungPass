@@ -2,12 +2,14 @@ package com.example.myapplication.patternlock;
 
 import android.util.Base64;
 
+import com.example.myapplication.BaseActivity;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PatternUtils {
+public class PatternUtils extends BaseActivity{
 
     private PatternUtils() {}
 
