@@ -33,7 +33,7 @@ public class MainActivity extends BaseActivity {
     FirstConnectThread thread;
     Bundle bundle;
     Handler mHandler;
-    String storage;
+    public static String save_id;
 
     long now;
     Date date;
@@ -67,6 +67,13 @@ public class MainActivity extends BaseActivity {
         if ((ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED)) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE}, 466);
         }
+
+        // ***아이디(학번) 저장하는 부분
+        pref = getSharedPreferences("login", MODE_PRIVATE); // Shared Preference를 불러옵니다.
+        save_id = pref.getString("id", "");
+        EditText idet = (EditText)findViewById(R.id.login_id_et);
+        idet.setText(save_id);
+
 
         now = System.currentTimeMillis();
         // 현재시간을 date 변수에 저장한다.
