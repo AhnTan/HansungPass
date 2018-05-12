@@ -12,6 +12,7 @@ public class SetLockActivity extends BaseActivity {
 
     public static Boolean FPcheck;
     public static Boolean PTcheck;
+    public static Boolean NFC_check;
     SharedPreferences pref;
 
     @Override
@@ -21,6 +22,8 @@ public class SetLockActivity extends BaseActivity {
 
         final Switch FPsb = (Switch) findViewById(R.id.FPsb);
         final Switch PTsb = (Switch) findViewById(R.id.PTsb);
+        final Switch NFCsb = (Switch) findViewById(R.id.NFCsb);
+
         pref = getSharedPreferences("pref", MODE_PRIVATE); // Shared Preference를 불러옵니다.
 
         // 저장된 값들을 불러옵니다.
@@ -28,8 +31,11 @@ public class SetLockActivity extends BaseActivity {
 
         PTcheck = pref.getBoolean("PT", true);
 
+        NFC_check = pref.getBoolean("NFC", true);
+
         FPsb.setChecked(FPcheck);
         PTsb.setChecked(PTcheck);
+        NFCsb.setChecked(NFC_check);
 
         FPsb.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,6 +73,19 @@ public class SetLockActivity extends BaseActivity {
             }
         });
 
+        NFCsb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(NFC_check == false){
+                    NFCsb.setChecked(true);
+                    NFC_check = true;
+                }else {
+                    NFCsb.setChecked(false);
+                    NFC_check = false;
+                }
+            }
+        });
+
     }
 
     public void onStop() { // 어플리케이션이 화면에서 사라질때
@@ -78,6 +97,7 @@ public class SetLockActivity extends BaseActivity {
         // 저장할 값들을 입력합니다.
         editor.putBoolean("FP", FPcheck);
         editor.putBoolean("PT", PTcheck);
+        editor.putBoolean("NFC", NFC_check);
 
         editor.commit(); // 저장합니다.
 

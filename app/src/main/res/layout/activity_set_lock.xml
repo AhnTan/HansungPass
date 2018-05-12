@@ -29,8 +29,8 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 app:srcCompat="@drawable/fingerlock" />
 
             <TextView
@@ -39,6 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="20dp"
+                android:textSize="12dp"
                 android:text="지문방식은 대조하려는 지문이 사용자의 단말기에 등록되어 있는 지문과 일치해야 학생증이 로딩되기 때문에 절대 도용이 불가능합니다." />
         </LinearLayout>
 
@@ -49,8 +50,8 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="100dp"
-                android:layout_height="130dp"
+                android:layout_width="70dp"
+                android:layout_height="90dp"
                 app:srcCompat="@drawable/patternlock" />
 
             <TextView
@@ -58,7 +59,28 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="20dp"
+                android:textSize="12dp"
                 android:text="패턴 방식은 사용자가 원하는 패턴을 등록, 입력하여 학생증을 불러오는 방식으로, 지문 기능이 없는 단말기 또는 지문 방식을 쓰지 않고자 하는 사용자에게 적합합니다." />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="70dp"
+                android:layout_height="90dp"
+                app:srcCompat="@drawable/nfc" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="20dp"
+                android:textSize="12dp"
+                android:text="NFC기능은 무선태그 기술 중 차세대 근거리 통신 기술입니다. 보안성보다 사용자의 편리성을 중점에 두며, NFC태그에 단말기를 가져다 대면 NFC 데이터를 인식하여 빠르고 간단하게 사용 할 수 있습니다. " />
         </LinearLayout>
 
         <Switch
@@ -76,4 +98,14 @@
             android:layout_gravity="center_horizontal"
             android:layout_margin="10dp"
             android:text="패턴 " />
-</LinearLayout></LinearLayout>
+
+        <Switch
+            android:id="@+id/NFCsb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="10dp"
+            android:text="NFC " />
+
+    </LinearLayout>
+</LinearLayout>

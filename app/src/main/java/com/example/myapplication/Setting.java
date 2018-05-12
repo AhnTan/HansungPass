@@ -53,7 +53,7 @@ public class Setting extends BaseActivity {
                 System.out.print("kkkkkkkkkk");
                 Reprint.initialize(getApplicationContext());
 
-                data.add(new Setting_item("잠금방식", "지문,패턴"));
+                data.add(new Setting_item("잠금방식 및 NFC", "지문,패턴,NFC"));
 
                 if (Reprint.hasFingerprintRegistered()) {
                     data.add(new Setting_item("지문 인식", "등록된 지문이 있습니다"));
