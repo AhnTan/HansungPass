@@ -311,7 +311,7 @@ public class QRcode extends FragmentActivity {
     class ConnectThread extends Thread {
         //ProgressBar progressBar = (ProgressBar)findViewById(R.id.qr_bar);
         public void run() {
-            String host = "113.198.84.23";
+            String host = "113.198.84.29";
             //String host = "223.194.158.120";
             int port = 80;
 

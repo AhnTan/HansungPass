@@ -36,11 +36,11 @@
         android:hint="학번(ID)"
         android:inputType="textPersonName"
         android:paddingLeft="10dp"
-        android:textColor="#302f2f" />
+        android:textColor="#302f2f"
+        android:text="1392024"/>
 
     <EditText
         android:id="@+id/login_pw_et"
-
         android:layout_width="210dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -48,7 +48,8 @@
         android:hint="비밀번호(Password)"
         android:inputType="textPassword"
         android:paddingLeft="10dp"
-        android:textColor="#302f2f" />
+        android:textColor="#302f2f"
+        android:text="123456"/>
 
     <Button
         android:id="@+id/login_btn"

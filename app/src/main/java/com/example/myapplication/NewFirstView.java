@@ -71,7 +71,9 @@ public class NewFirstView extends BaseActivity {
     }
 
     class ImgConnectThread extends Thread {
+        String host = "113.198.84.29";
         int port = 80;
+
         Object input;
         String storage;
 
@@ -83,7 +85,6 @@ public class NewFirstView extends BaseActivity {
 
         public void run() {
 
-            String host = "113.198.84.23";
 
             try {
                 Socket socket = new Socket(host, port);
