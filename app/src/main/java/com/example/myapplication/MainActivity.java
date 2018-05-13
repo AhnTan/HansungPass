@@ -1,7 +1,9 @@
 package com.example.myapplication;
 
 import android.Manifest;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -19,6 +21,7 @@ import android.os.Parcelable;
 import android.os.StrictMode;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -48,9 +51,11 @@ public class MainActivity extends BaseActivity {
     //String host = "113.198.80.215";    // 서버 컴퓨터 IP
     //int port = 80;
     FirstConnectThread thread;
+    NFCThread nfcThread;
     Bundle bundle;
     Handler mHandler;
     public static String save_id;
+    public static String save_pw;
 
     long now;
     Date date;
@@ -58,13 +63,19 @@ public class MainActivity extends BaseActivity {
     String formatDate;
     TextView dateNow;
     private SharedPreferences pref;
+    private SharedPreferences pref_pw;
     private TelephonyManager telephonyManager;
     private EditText Stuid;
     Intent intent;
     private BackPressCloseHandler backPressCloseHandler;
 
+    public final static int MY_NOTIFICATION_ID = 1;
+
     NfcAdapter nfcAdapter;
     PendingIntent pendingIntent;
+    String NFCdata = null;
+    String NFC_TagID = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +96,15 @@ public class MainActivity extends BaseActivity {
 
                 String ss = bundle.getString("key");
 
-                Toast.makeText(getApplicationContext(), bundle.getString("key"), Toast.LENGTH_SHORT).show();
+                if(ss.equals("시간표가 확인 되었습니다.")){
+                    Toast.makeText(getApplicationContext(), bundle.getString("key"), Toast.LENGTH_LONG).show();
+                    //Log.e("시간표가", " 확인 되었습니다");
+                    alarm_message();
+                    finish();
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), bundle.getString("key"), Toast.LENGTH_SHORT).show();
+                }
             }
         };
     }
@@ -100,9 +119,18 @@ public class MainActivity extends BaseActivity {
         System.out.println("new3");
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+
     // NFC Read 기능
     public void onResume() {
         super.onResume();
+
+        NdefMessage[] msgs = null;
+
 
         if (nfcAdapter != null) {
             if (!nfcAdapter.isEnabled())
@@ -110,9 +138,6 @@ public class MainActivity extends BaseActivity {
 
             nfcAdapter.enableForegroundDispatch(this, pendingIntent, null, null);
         }
-
-        NdefMessage[] msgs = null;
-
 
 
         if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(getIntent().getAction())) {
@@ -126,13 +151,14 @@ public class MainActivity extends BaseActivity {
 
                 byte[] payload = msgs[0].getRecords()[0].getPayload();
 
-
+                NFCdata = new String(payload);
                /* TextView myText = (TextView)findViewById(R.id.textView);
                 myText.setText(new String(payload));*/
 
                onNewIntent(getIntent());            // 어플이 시작되면서 펜딩인텐트를 통한 NewIntent가 불러지면서 TagInit이 불러짐
-               Toast.makeText(getApplication(), new String(payload), Toast.LENGTH_LONG).show();
 
+               //Toast.makeText(getApplication(), NFCdata, Toast.LENGTH_LONG).show();
+                Log.e("NFCdata : ", NFCdata);
             }
         }
     }
@@ -143,7 +169,9 @@ public class MainActivity extends BaseActivity {
         String output_pw;
         String output_num;
         SharedPreferences id_pref;
+        SharedPreferences pw_pref;
         SharedPreferences.Editor id_commit;
+        SharedPreferences.Editor pw_commit;
 
         SharedPreferences storage_pref;
         SharedPreferences.Editor storage_commit;
@@ -165,7 +193,7 @@ public class MainActivity extends BaseActivity {
                 System.out.println("전화번호 1: " + output_num);
                 output_num = output_num.replace("+82", "0");
                 System.out.println("전화번호 2: " + output_num);
-                output_num = "01041199582";
+                //output_num = "01041199582";
                 EditText id = (EditText) findViewById(R.id.login_id_et);
                 EditText password = (EditText) findViewById(R.id.login_pw_et);
 
@@ -189,10 +217,17 @@ public class MainActivity extends BaseActivity {
                 if (input.toString().equals("허가")) {
                     //intent.putExtra("pid", id.getText().toString());
                     String pid = id.getText().toString();
+                    String pwd = password.getText().toString();
+
                     id_pref = getSharedPreferences("login", MODE_APPEND);
+                    pw_pref = getSharedPreferences("password", MODE_APPEND);
                     id_commit = id_pref.edit();
+                    pw_commit = pw_pref.edit();
                     id_commit.putString("id", pid);
+                    pw_commit.putString("pw", pwd);
+
                     id_commit.commit();
+                    pw_commit.commit();
                     System.out.println(">>>>>>>>>>>>>>>> : " + id_pref.getString("id", ""));
 
                     Reprint.initialize(getApplicationContext());
@@ -219,6 +254,113 @@ public class MainActivity extends BaseActivity {
                 e.printStackTrace();
                 System.out.println("접근실패");
                 return;
+            }
+        }
+    }
+
+
+    // NFC 쓰레드
+    class NFCThread extends Thread {
+        Object input;
+        String output_id;
+        String output_pw;
+        String output_num;
+        SharedPreferences id_pref;
+        SharedPreferences pw_pref;
+        SharedPreferences.Editor id_commit;
+        EditText id = (EditText) findViewById(R.id.login_id_et);
+        EditText password = (EditText) findViewById(R.id.login_pw_et);
+
+
+        public void run() {
+
+            String host = "113.198.84.29";    // 서버 컴퓨터 IP
+            //String host = "113.198.80.215";
+            int port = 80;
+
+            if(id.getText().toString() != null && password.getText().toString() != null) {
+
+                try {
+                    Log.e("ffff", "!!" + host + " " + port);
+                    InetSocketAddress socketAddress = new InetSocketAddress(host, port);
+                    Socket socket = new Socket();
+                    socket.connect(socketAddress);
+                    System.out.println("서버로 연결되었습니다. : " + host + ", " + port);
+                    telephonyManager = (TelephonyManager) getSystemService(getApplicationContext().TELEPHONY_SERVICE);
+                    String output_num = telephonyManager.getLine1Number();
+                    //System.out.println("전화번호 1: " + output_num);
+                    output_num = output_num.replace("+82", "0");
+                    //System.out.println("전화번호 2: " + output_num);
+                    //output_num = "01041199582";
+
+
+                    // nfc라는 것을 확인하는 앞부분 데이터 보내기
+                    ;
+                    ObjectOutputStream outstream = new ObjectOutputStream(socket.getOutputStream());
+                    outstream.writeObject("nfc");
+                    outstream.flush();
+                    System.out.println("서버로 보낸 데이터 : " + "nfc");
+
+                    // nfc 데이터 보내기
+                    output_id = id.getText().toString();
+                    output_pw =  "%3B%3B" + NFCdata + "%3B%3B" + NFC_TagID + "%3B%3B" + output_id + "%3B%3B" + password.getText().toString() + "%3B%3B" + output_num;
+                    ObjectOutputStream outstream2 = new ObjectOutputStream(socket.getOutputStream());
+                    outstream2.writeObject(output_pw);
+                    outstream2.flush();
+                    System.out.println("서버로 보낸 데이터 : " + output_pw);
+
+                    ObjectInputStream instream = new ObjectInputStream(socket.getInputStream());
+                    input = instream.readObject();
+                    System.out.println("서버로부터 받은 데이터: " + input);
+
+
+                    if (input.toString().equals("nfcOK")) {
+                        //intent.putExtra("pid", id.getText().toString());
+
+                        Log.e("출석체크가 확인되었습니다", "ok");
+                        //onDestroy();
+
+                        bundle = new Bundle();
+                        bundle.putString("key", "시간표가 확인 되었습니다.");
+                        Message msg = new Message();
+                        msg.setData(bundle);
+                        mHandler.sendMessage(msg);
+
+                      /*  Reprint.initialize(getApplicationContext());
+                        //지문이 단말기에 등록되어있는지 ||  패턴이 등록되어있는지 확인하는 조건문!!
+                        if (PatternLockUtils.hasPattern(getApplicationContext())) {
+                            intent = new Intent(getApplicationContext(), OldFirstView.class);
+                        } else
+                            intent = new Intent(getApplicationContext(), NewFirstView.class);
+
+                        startActivity(intent);*/
+
+
+                    } else if (input.toString().equals("불허가")) {
+                        bundle = new Bundle();
+                        bundle.putString("key", "ID와 PW를 다시 확인해주세요");
+                        Message msg = new Message();
+                        msg.setData(bundle);
+                        mHandler.sendMessage(msg);
+                    }
+                    else if(input.toString().equals("nfcNOK")){
+                        bundle = new Bundle();
+                        bundle.putString("key", "NFC 태그가 맞는지 확인해주세요");
+                        Message msg = new Message();
+                        msg.setData(bundle);
+                        mHandler.sendMessage(msg);
+                    }
+
+                    instream.close();
+                    outstream.close();
+                    socket.close();
+                    return;
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    System.out.println("접근실패");
+                    return;
+                }
             }
         }
     }
@@ -265,9 +407,13 @@ public class MainActivity extends BaseActivity {
 
         // ***아이디(학번) 저장하는 부분
         pref = getSharedPreferences("login", MODE_PRIVATE); // Shared Preference를 불러옵니다.
+        pref_pw = getSharedPreferences("password", MODE_PRIVATE);
         save_id = pref.getString("id", "");
+        save_pw = pref_pw.getString("pw","");
         EditText idet = (EditText)findViewById(R.id.login_id_et);
+        EditText pwet = (EditText)findViewById(R.id.login_pw_et);
         idet.setText(save_id);
+        pwet.setText(save_pw);
 
 
         now = System.currentTimeMillis();
@@ -281,7 +427,7 @@ public class MainActivity extends BaseActivity {
         dateNow = (TextView) findViewById(R.id.qr_date);
 
         pref = getSharedPreferences("pref", MODE_PRIVATE);
-        final SharedPreferences.Editor editor = pref.edit();
+        //final SharedPreferences.Editor editor = pref.edit();
 
         Button btn = (Button) findViewById(R.id.login_btn);
         btn.setOnClickListener(new View.OnClickListener() {
@@ -307,6 +453,9 @@ public class MainActivity extends BaseActivity {
         msgs = new NdefMessage[] {msg};
 
         displayMsgs(msgs);
+        Log.e("나여기있어요", "!!");
+        nfcThread = new NFCThread();
+        nfcThread.start();
     }
 
     private void displayMsgs(NdefMessage[] msgs) {
@@ -324,13 +473,17 @@ public class MainActivity extends BaseActivity {
         }
 
         Log.e("NFCC : ", builder.toString());
-        Toast.makeText(getApplication(), builder.toString(), Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplication(), NFC_TagID, Toast.LENGTH_LONG).show();
+
+        //Toast.makeText(getApplication(), builder.toString(), Toast.LENGTH_LONG).show();
+
         //text.setText(builder.toString());
     }
 
     private String dumpTagData(Tag tag) {
         StringBuilder sb = new StringBuilder();
         byte[] id = tag.getId();
+        NFC_TagID = String.valueOf(toDec(id));
         sb.append("ID (hex): ").append(toHex(id)).append('\n');
         sb.append("ID (reversed hex): ").append(toReversedHex(id)).append('\n');
         sb.append("ID (dec): ").append(toDec(id)).append('\n');
@@ -459,4 +612,15 @@ public class MainActivity extends BaseActivity {
         startActivity(intent);
     }
 
+    private void alarm_message(){
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
+        mBuilder.setSmallIcon(R.drawable.ic_notification);
+        mBuilder.setContentTitle("컴퓨터 프로그래밍 - 306호");
+        mBuilder.setContentText("정상 출결 되었습니다");
+
+        NotificationManager mNotificationManager =
+                (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+// MY_NOTIFICATION_ID allows you to update the notification later on.
+        mNotificationManager.notify(MY_NOTIFICATION_ID, mBuilder.build());
+    }
 }
